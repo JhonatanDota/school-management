@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 
 use Database\Seeders\SchoolSeeder;
 use Database\Seeders\TeacherSeeder;
+use Database\Seeders\CourseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SchoolSeeder::class,
             TeacherSeeder::class,
+            CourseSeeder::class,
         ]);
     }
 }
