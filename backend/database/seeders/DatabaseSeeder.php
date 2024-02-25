@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\SchoolSeeder;
 use Database\Seeders\TeacherSeeder;
 use Database\Seeders\CourseSeeder;
+use Database\Seeders\CourseLessonSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,
             TeacherSeeder::class,
             CourseSeeder::class,
+            CourseLessonSeeder::class,
         ]);
     }
 }

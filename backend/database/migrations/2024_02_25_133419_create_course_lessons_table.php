@@ -18,9 +18,7 @@ class CreateCourseLessonsTable extends Migration
             $table->integer('course_id')->unsigned();
             $table->foreign('course_id')->references('id')->on('courses');
             $table->string('name');
-            $table->datetime('datetime');
             $table->integer('order');
-            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

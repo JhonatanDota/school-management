@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Course extends Model
+class CourseLesson extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,9 @@ class Course extends Model
      * @var array
      */
     protected $fillable = [
-        'school_id',
+        'course_id',
         'name',
-        'description',
+        'order',
     ];
 
     /**
@@ -26,9 +26,9 @@ class Course extends Model
      * @var array
      */
     private static $baseRules = [
-        'school_id' => 'required|exists:schools,id',
+        'course_id' => 'required|exists:courses,id',
         'name' => 'required|max:255',
-        'description' => 'string',
+        'order' => 'integer',
     ];
 
     /**
@@ -48,7 +48,9 @@ class Course extends Model
      */
     public static function updateRules(): array
     {
-        return array_merge(self::$baseRules, []);
+        return array_merge(self::$baseRules, [
+            'order' => 'required|integer'
+        ]);
     }
 
     // =========================================================================
@@ -56,10 +58,10 @@ class Course extends Model
     // =========================================================================
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function courseLessons()
+    public function course()
     {
-        return $this->hasMany(\App\Models\CourseLesson::class)->orderBy('order');
+        return $this->belongsTo(\App\Models\Course::class);
     }
 }
