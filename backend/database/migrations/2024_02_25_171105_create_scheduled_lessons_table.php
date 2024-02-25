@@ -18,7 +18,7 @@ class CreateScheduledLessonsTable extends Migration
             $table->integer('course_lesson_id')->unsigned();
             $table->foreign('course_lesson_id')->references('id')->on('course_lessons');
             $table->integer('klass_id')->unsigned();
-            $table->foreign('klass_id')->references('id')->on('klass');
+            $table->foreign('klass_id')->references('id')->on('klasses');
             $table->datetime('datetime');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

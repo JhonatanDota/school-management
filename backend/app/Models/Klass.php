@@ -17,6 +17,7 @@ class Klass extends Model
     protected $fillable = [
         'course_id',
         'teacher_id',
+        'original_start_date',
     ];
 
     protected $baseRules = [
@@ -27,6 +28,14 @@ class Klass extends Model
     // =========================================================================
     // Relationships
     // =========================================================================
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function course()
+    {
+        return $this->belongsTo(\App\Models\Course::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

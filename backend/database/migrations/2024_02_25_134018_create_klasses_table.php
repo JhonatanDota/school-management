@@ -19,6 +19,7 @@ class CreateKlassesTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->integer('teacher_id')->unsigned();
             $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->datetime('original_start_date');
             $table->timestamps();
         });
     }

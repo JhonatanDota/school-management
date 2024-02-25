@@ -13,7 +13,7 @@ class CourseLessonObserver
      * @param  \App\Models\CourseLesson  $courseLesson
      * @return void
      */
-    public function creating(CourseLesson $courseLesson)
+    public function creating(CourseLesson $courseLesson): void
     {
         $course = $courseLesson->course;
         $lastCourseLesson = $course->courseLessons->last();

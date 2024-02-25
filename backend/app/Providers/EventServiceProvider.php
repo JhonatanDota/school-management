@@ -9,6 +9,9 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use App\Models\CourseLesson;
 use App\Observers\CourseLessonObserver;
 
+use App\Models\Klass;
+use App\Observers\KlassObserver;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -30,5 +33,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         CourseLesson::observe(CourseLessonObserver::class);
+        Klass::observe(KlassObserver::class);
     }
 }

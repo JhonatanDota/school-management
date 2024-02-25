@@ -28,6 +28,7 @@ class KlassFactory extends Factory
         return [
             'course_id' => $course['id'],
             'teacher_id' => $teacher['id'],
+            'original_start_date' => $this->faker->dateTime(),
         ];
     }
 }
