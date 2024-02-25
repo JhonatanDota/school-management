@@ -18,16 +18,18 @@ class KlassObserver
     {
         $course = $klass->course;
         $courseLessons = $course->courseLessons;
-        $toInsertScheduledLessons = array();
+        $nextDatetime = $klass->original_start_date;
 
         foreach ($courseLessons as $courseLesson) {
-            $toInsertScheduledLessons[] = [
+            $scheduledLessons[] = [
                 'course_lesson_id' => $courseLesson->id,
                 'klass_id' => $klass->id,
-                'datetime' => DateHelpers::sumDays($klass->original_start_date, 7),
+                'datetime' => $nextDatetime,
             ];
+
+            $nextDatetime = DateHelpers::sumDays($nextDatetime, 7);
         }
 
-        ScheduledLesson::insert($toInsertScheduledLessons);
+        if(isset($scheduledLessons)) ScheduledLesson::insert($scheduledLessons);
     }
 }
