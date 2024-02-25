@@ -20,32 +20,12 @@ class CourseLesson extends Model
         'order',
     ];
 
-    /**
-     * Base Rules.
-     *
-     * @var array
-     */
-    private static $baseRules = [
+    protected $baseRules = [
         'course_id' => 'required|exists:courses,id',
         'name' => 'required|max:255',
         'order' => 'integer',
     ];
 
-    /**
-     * Rules to create object.
-     *
-     * @return array
-     */
-    public static function createRules(): array
-    {
-        return array_merge(self::$baseRules, []);
-    }
-
-    /**
-     * Rules to update object.
-     *
-     * @return array
-     */
     public static function updateRules(): array
     {
         return array_merge(self::$baseRules, [

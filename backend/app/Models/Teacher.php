@@ -21,35 +21,10 @@ class Teacher extends Model
         'is_active',
     ];
 
-    /**
-     * Base Rules.
-     *
-     * @var array
-     */
-    private static $baseRules = [
+    protected $baseRules = [
         'school_id' => 'required|exists:schools,id',
         'name' => 'required|max:255',
         'email' => 'required|email',
         'is_active' => 'boolean'
     ];
-
-    /**
-     * Rules to create object.
-     *
-     * @return array
-     */
-    public static function createRules(): array
-    {
-        return array_merge(self::$baseRules, []);
-    }
-
-    /**
-     * Rules to update object.
-     *
-     * @return array
-     */
-    public static function updateRules(): array
-    {
-        return array_merge(self::$baseRules, []);
-    }
 }

@@ -20,36 +20,11 @@ class Course extends Model
         'description',
     ];
 
-    /**
-     * Base Rules.
-     *
-     * @var array
-     */
-    private static $baseRules = [
+    protected $baseRules = [
         'school_id' => 'required|exists:schools,id',
         'name' => 'required|max:255',
         'description' => 'string',
     ];
-
-    /**
-     * Rules to create object.
-     *
-     * @return array
-     */
-    public static function createRules(): array
-    {
-        return array_merge(self::$baseRules, []);
-    }
-
-    /**
-     * Rules to update object.
-     *
-     * @return array
-     */
-    public static function updateRules(): array
-    {
-        return array_merge(self::$baseRules, []);
-    }
 
     // =========================================================================
     // Relationships

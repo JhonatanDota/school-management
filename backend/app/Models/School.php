@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class School extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,21 +16,7 @@ class School extends Model
      */
     protected $fillable = ['name'];
 
-    /**
-     * Rules to create object.
-     *
-     * @var array
-     */
-    public static $createRules = [
-        'name' => 'required|unique:schools|max:255'
-    ];
-
-    /**
-     * Rules to update object.
-     *
-     * @var array
-     */
-    public static $updateRules = [
+    protected $baseRules = [
         'name' => 'required|unique:schools|max:255'
     ];
 }
