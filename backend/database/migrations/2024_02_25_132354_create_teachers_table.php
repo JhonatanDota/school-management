@@ -18,7 +18,7 @@ class CreateTeachersTable extends Migration
             $table->integer('school_id')->unsigned();
             $table->foreign('school_id')->references('id')->on('schools');
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
