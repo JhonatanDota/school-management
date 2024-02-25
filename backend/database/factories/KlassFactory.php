@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Klass;
+use App\Models\School;
 use App\Models\Course;
 use App\Models\Teacher;
 
@@ -18,16 +19,18 @@ class KlassFactory extends Factory
      */
     public function definition()
     {
-        $courses = Course::get()->toArray();
-        $course = $this->faker->randomElement($courses);
+        $schools = School::has('courses')->has('teachers')->pluck('id')->toArray();
+        $schoolId = $this->faker->randomElement($schools);
 
-        $teachers = Teacher::where('school_id', $course['school_id'])->get()->toArray();
-        $teacher = $this->faker->randomElement($teachers);
+        $courses = Course::where('school_id', $schoolId)->pluck('id')->toArray();
+        $courseId = $this->faker->randomElement($courses);
 
+        $teachers = Teacher::where('school_id', $schoolId)->pluck('id')->toArray();
+        $teacherId = $this->faker->randomElement($teachers);
 
         return [
-            'course_id' => $course['id'],
-            'teacher_id' => $teacher['id'],
+            'course_id' => $courseId,
+            'teacher_id' => $teacherId,
             'original_start_date' => $this->faker->dateTime(),
         ];
     }
