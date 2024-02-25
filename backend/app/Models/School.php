@@ -22,7 +22,7 @@ class School extends Model
      * @var array
      */
     public static $createRules = [
-        'name' => 'required|unique:posts|max:255'
+        'name' => 'required|unique:schools|max:255'
     ];
 
     /**
@@ -31,6 +31,6 @@ class School extends Model
      * @var array
      */
     public static $updateRules = [
-        'name' => 'required|unique:posts|max:255'
+        'name' => 'required|unique:schools|max:255'
     ];
 }
