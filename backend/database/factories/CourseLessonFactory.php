@@ -17,10 +17,8 @@ class CourseLessonFactory extends Factory
      */
     public function definition()
     {
-        $coursesIds = Course::pluck('id')->toArray();
-
         return [
-            'course_id' => $this->faker->randomElement($coursesIds),
+            'course_id' => Course::factory(),
             'name' => $this->faker->name(),
         ];
     }

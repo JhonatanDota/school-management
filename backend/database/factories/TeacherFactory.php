@@ -17,10 +17,8 @@ class TeacherFactory extends Factory
      */
     public function definition()
     {
-        $schoolIds = School::pluck('id')->toArray();
-
         return [
-            'school_id' => $this->faker->randomElement($schoolIds),
+            'school_id' => School::fa,
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->email(),
             'is_active' => $this->faker->boolean(),

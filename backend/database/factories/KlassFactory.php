@@ -19,18 +19,9 @@ class KlassFactory extends Factory
      */
     public function definition()
     {
-        $schools = School::has('courses')->has('teachers')->pluck('id')->toArray();
-        $schoolId = $this->faker->randomElement($schools);
-
-        $courses = Course::where('school_id', $schoolId)->pluck('id')->toArray();
-        $courseId = $this->faker->randomElement($courses);
-
-        $teachers = Teacher::where('school_id', $schoolId)->pluck('id')->toArray();
-        $teacherId = $this->faker->randomElement($teachers);
-
         return [
-            'course_id' => $courseId,
-            'teacher_id' => $teacherId,
+            'course_id' => Course::factory(),
+            'teacher_id' => Teacher::factory(),
             'original_start_date' => $this->faker->dateTime(),
         ];
     }
