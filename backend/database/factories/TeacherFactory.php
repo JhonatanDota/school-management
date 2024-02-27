@@ -18,7 +18,7 @@ class TeacherFactory extends Factory
     public function definition()
     {
         return [
-            'school_id' => School::fa,
+            'school_id' => School::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->email(),
             'is_active' => $this->faker->boolean(),

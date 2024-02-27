@@ -1,5 +1,7 @@
 <template>
-  <h1 class="text-red-100">Tste</h1>
+  <SideMenu/>
 </template>
 
-<style></style>
+<script setup>
+  import SideMenu from "./components/menu/SideMenu.vue";
+</script>
