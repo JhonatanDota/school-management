@@ -1,10 +1,13 @@
 <template>
-  <div class="w-full flex justify-start items-center gap-2 p-4 hover:bg-purple-300 bg-green-800">
-    <props.icon
-      fill="white"
-      color="red"
-    />
-    <h3 v-if="props.isMenuOpen" class="text-base font-bold text-white">
+  <div
+    class="w-full flex items-center gap-2 md:gap-3 p-3 md:p-6 hover:bg-purple-300 bg-green-800 cursor-pointer"
+    :class="[props.isMenuOpen ? 'justify-start' : 'justify-center']"
+  >
+    <props.icon fill="white" color="red" />
+    <h3
+      v-if="props.isMenuOpen"
+      class="text-base md:text-lg font-bold text-white"
+    >
       {{ props.name }}
     </h3>
   </div>
