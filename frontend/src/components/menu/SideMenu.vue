@@ -9,11 +9,29 @@
 
     <MenuUser name="Jhonatan" unitName="Super Admin" :isMenuOpen="isMenuOpen" />
     <div class="flex flex-col items-start gap-6 md:gap-10">
-      <MenuItem name="Home" :icon="HomeIcon" :isMenuOpen="isMenuOpen" />
-      <MenuItem name="Turmas" :icon="StudentCapIcon" :isMenuOpen="isMenuOpen" />
-      <MenuItem name="Alunos" :icon="ClassRoomIcon" :isMenuOpen="isMenuOpen" />
+      <router-link class="w-full" to="/">
+        <MenuItem name="Home" :icon="HomeIcon" :isMenuOpen="isMenuOpen" />
+      </router-link>
+
+      <router-link class="w-full" to="/classes">
+        <MenuItem
+          name="Turmas"
+          :icon="StudentCapIcon"
+          :isMenuOpen="isMenuOpen"
+        />
+      </router-link>
+
+      <router-link class="w-full" to="/students">
+        <MenuItem
+          name="Alunos"
+          :icon="ClassRoomIcon"
+          :isMenuOpen="isMenuOpen"
+        />
+      </router-link>
     </div>
   </div>
+
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts">
