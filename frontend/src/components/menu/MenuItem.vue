@@ -1,14 +1,14 @@
 <template>
   <div
     class="w-full flex items-center gap-2 md:gap-4 p-3 md:p-5 hover:bg-[#632C96] transition-colors duration-100 cursor-pointer"
-    :class="[props.isMenuOpen ? 'justify-start' : 'justify-center']"
+    :class="[isMenuOpen ? 'justify-start' : 'justify-center']"
   >
-    <props.icon fill="white" color="red" />
+    <icon fill="white" color="red" />
     <h3
-      v-if="props.isMenuOpen"
+      v-if="isMenuOpen"
       class="text-base md:text-lg font-bold text-white"
     >
-      {{ props.name }}
+      {{ name }}
     </h3>
   </div>
 </template>
@@ -22,5 +22,5 @@ interface MenuItemProps {
   isMenuOpen: boolean;
 }
 
-const props: MenuItemProps = defineProps<MenuItemProps>();
+defineProps<MenuItemProps>();
 </script>
