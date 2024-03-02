@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full flex items-center gap-2 md:gap-4 p-3 md:p-6 hover:bg-[#632C96] transition-colors duration-100 cursor-pointer"
+    class="w-full flex items-center gap-2 md:gap-4 p-3 md:p-5 hover:bg-[#632C96] transition-colors duration-100 cursor-pointer"
     :class="[props.isMenuOpen ? 'justify-start' : 'justify-center']"
   >
     <props.icon fill="white" color="red" />
