@@ -1,3 +1,10 @@
 <template>
-    <h1 class="text-red-400">Home</h1>
+  <ContainerPage>
+    <TitlePage title="Abadaa" />
+  </ContainerPage>
 </template>
+
+<script setup lang="ts">
+import ContainerPage from "./ContainerPage.vue";
+import TitlePage from "./TitlePage.vue";
+</script>
