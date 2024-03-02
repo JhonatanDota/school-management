@@ -1,6 +1,6 @@
 <template>
   <ContainerPage>
-    <TitlePage title="Abadaa" />
+    <TitlePage title="Home" />
   </ContainerPage>
 </template>
 
