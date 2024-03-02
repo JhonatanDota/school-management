@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex flex-col justify-center gap-2 h-24 md:h-28 items-center text-white"
+    class="flex flex-col justify-center gap-2 items-center text-white"
+    :class="[props.isMenuOpen ? 'h-24 md:h-28' : 'h-16 md:h-24']"
   >
     <img v-if="props.img" src="{{  }}" alt="" />
     <UserIcon v-else class="h-8 w-8 md:w-12 md:h-12" fill="white" />

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative h-screen flex flex-col gap-6 pt-5 bg-black"
+    class="relative h-screen flex flex-col gap-6 pt-5 bg-[#222D32] transition-all duration-300 ease-out"
     :class="[isMenuOpen ? 'w-32 md:w-48' : 'w-16 md:w-24']"
   >
     <button @click="handleMenu" class="absolute w-6 h-5 top-0 right-0">
@@ -8,6 +8,9 @@
     </button>
 
     <MenuUser name="Jhonatan" unitName="Super Admin" :isMenuOpen="isMenuOpen" />
+
+    <hr class="w-full bg-[#7745a5c2] h-2 md:h-3 border-none" />
+
     <div class="flex flex-col items-start gap-6 md:gap-10">
       <router-link class="w-full" to="/">
         <MenuItem name="Home" :icon="HomeIcon" :isMenuOpen="isMenuOpen" />
