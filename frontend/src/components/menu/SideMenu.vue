@@ -12,7 +12,7 @@
     <hr class="w-full bg-[#7745a5c2] h-2 md:h-3 border-none" />
 
     <div class="flex flex-col items-start gap-6 md:gap-10">
-      <router-link class="w-full" active-class="bg-[#632C96]" to="/">
+      <router-link class="w-full" active-class="bg-[#632C96]" to="/home">
         <MenuItem name="Home" :icon="HomeIcon" :isMenuOpen="isMenuOpen" />
       </router-link>
 
