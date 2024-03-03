@@ -6,11 +6,19 @@ import StudentPage from "@/pages/student/StudentPage.vue";
 import FallbackPage from "@/pages/FallbackPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", component: LoginPage, meta: { requiresAuth: false } },
+  {
+    path: "/",
+    component: LoginPage,
+    meta: { requiresAuth: false, hideSideMenu: true },
+  },
   { path: "/home", component: HomePage, meta: { requiresAuth: true } },
   { path: "/classes", component: KlassPage, meta: { requiresAuth: true } },
   { path: "/students", component: StudentPage, meta: { requiresAuth: true } },
-  { path: "/:catchAll(.*)", component: FallbackPage, meta: { requiresAuth: false } },
+  {
+    path: "/:catchAll(.*)",
+    component: FallbackPage,
+    meta: { requiresAuth: false, hideSideMenu: true },
+  },
 ];
 
 const router = createRouter({
@@ -20,7 +28,7 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
   const path = to.path;
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   const isAuthRequired = to.meta.requiresAuth;
 
   if (path === "/") {
