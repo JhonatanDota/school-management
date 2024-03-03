@@ -3,7 +3,7 @@
     <SideMenu />
   </div>
 
-  <router-view />
+  <router-view v-else />
 </template>
 
 <script setup lang="ts">
