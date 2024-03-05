@@ -1,9 +1,9 @@
 <template>
-  <div v-if="shouldShowSidebar" class="flex">
-    <SideMenu />
+  <div class="flex">
+    <SideMenu v-if="shouldShowSidebar" />
+    <router-view />
   </div>
 
-  <router-view v-else />
 </template>
 
 <script setup lang="ts">
