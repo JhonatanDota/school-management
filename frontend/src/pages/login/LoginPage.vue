@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative mx-auto mt-16 md:mt-20 flex flex-col gap-6 md:gap-10 p-6 md:p-10 bg-[#222D32] rounded-md"
+    class="relative w-[90%] md:w-auto mx-auto mt-16 md:mt-20 flex flex-col gap-6 md:gap-10 p-6 md:p-10 bg-[#222D32] rounded-md"
   >
     <UserIcon
       class="absolute -top-8 md:-top-10 left-1/2 -translate-x-1/2 h-16 md:h-20 w-16 md:w-20 fill-slate-500"
@@ -10,7 +10,7 @@
     >
       <UserRoundedIcon fill="white" class="w-6 md:w-8 h-5 md:h-7" />
       <input
-        class="text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
+        class="w-[80%] text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
         type="text"
         placeholder="e-mail"
       />
@@ -21,7 +21,7 @@
     >
       <LockIcon fill="white" class="w-6 md:w-8 h-6 md:h-8" />
       <input
-        class="text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
+        class="w-[80%] text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
         type="password"
         placeholder="password"
       />
@@ -50,4 +50,6 @@
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
+import OpenedEyeIcon from "@/icons/OpenedEyeIcon.vue";
+import ClosedEyeIcon from "@/icons/ClosedEyeIcon.vue";
 </script>
