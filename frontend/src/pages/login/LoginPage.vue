@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
@@ -73,6 +73,6 @@ function handleShowPassword(): void {
 function login() {
   //TODO::Add truly login function
   localStorage.setItem("isLogged", "true");
-  router.push("/home")
+  router.push("/home");
 }
 </script>

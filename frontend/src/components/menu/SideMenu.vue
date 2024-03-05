@@ -7,6 +7,13 @@
       <MenuStripesIcon fill="white" />
     </button>
 
+    <button
+      @click="logout"
+      class="absolute w-6 h-5 bottom-8 left-1/2 -translate-x-1/2"
+    >
+      <LogoutIcon fill="white" />
+    </button>
+
     <MenuUser name="Jhonatan" unitName="Super Admin" :isMenuOpen="isMenuOpen" />
 
     <hr class="w-full bg-[#7745a5c2] h-2 md:h-3 border-none" />
@@ -37,16 +44,25 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import MenuStripesIcon from "@/icons/MenuStripesIcon.vue";
 import MenuUser from "@/components/menu/MenuUser.vue";
 import MenuItem from "@/components/menu/MenuItem.vue";
 import HomeIcon from "@/icons/HomeIcon.vue";
 import StudentCapIcon from "@/icons/StudentCapIcon.vue";
 import ClassRoomIcon from "@/icons/ClassRoomIcon.vue";
+import LogoutIcon from "@/icons/LogoutIcon.vue";
 
+const router = useRouter();
 const isMenuOpen = ref(true);
 
 function handleMenu(): void {
   isMenuOpen.value = !isMenuOpen.value;
+}
+
+function logout(): void {
+  //TODO::Add truly login function
+  localStorage.removeItem("isLogged");
+  router.push("/");
 }
 </script>
