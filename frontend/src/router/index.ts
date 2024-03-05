@@ -28,7 +28,7 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
   const path = to.path;
-  const isAuthenticated = false;
+  const isAuthenticated = localStorage.getItem("isLogged");
   const isAuthRequired = to.meta.requiresAuth;
 
   if (path === "/") {

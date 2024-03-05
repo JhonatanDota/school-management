@@ -46,6 +46,7 @@
     </div>
 
     <button
+      @click="login"
       class="w-full text-sm md:text-base p-2 md:p-3 uppercase font-bold bg-gray-200"
     >
       Login
@@ -55,15 +56,23 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from 'vue-router';
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
 import OpenedEyeIcon from "@/icons/OpenedEyeIcon.vue";
 import ClosedEyeIcon from "@/icons/ClosedEyeIcon.vue";
 
+const router = useRouter();
 const showPassword = ref(false);
 
 function handleShowPassword(): void {
   showPassword.value = !showPassword.value;
+}
+
+function login() {
+  //TODO::Add truly login function
+  localStorage.setItem("isLogged", "true");
+  router.push("/home")
 }
 </script>
