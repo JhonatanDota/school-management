@@ -22,10 +22,17 @@
       <LockIcon fill="white" class="w-6 md:w-8 h-6 md:h-8" />
       <input
         class="w-[80%] text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
-        type="password"
+        :type="showPassword ? 'text' : 'password'"
         placeholder="password"
       />
-      <LockIcon fill="white" class="w-6 md:w-8 h-6 md:h-8" />
+      <button @click="handleShowPassword">
+        <ClosedEyeIcon
+          v-if="showPassword"
+          fill="white"
+          class="w-6 md:w-8 h-6 md:h-8"
+        />
+        <OpenedEyeIcon v-else fill="white" class="w-6 md:w-8 h-6 md:h-8" />
+      </button>
     </div>
 
     <div class="flex items-center justify-between text-sm md:text-base">
@@ -47,9 +54,16 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
 import OpenedEyeIcon from "@/icons/OpenedEyeIcon.vue";
 import ClosedEyeIcon from "@/icons/ClosedEyeIcon.vue";
+
+const showPassword = ref(false);
+
+function handleShowPassword(): void {
+  showPassword.value = !showPassword.value;
+}
 </script>
