@@ -1,15 +1,18 @@
 <template>
-  <div
+  <form
+    @submit.prevent="onSubmit"
     class="relative w-[90%] md:w-auto mx-auto mt-16 md:mt-20 flex flex-col gap-6 md:gap-10 p-6 md:p-10 bg-[#222D32] rounded-md"
   >
     <UserIcon
       class="absolute -top-8 md:-top-10 left-1/2 -translate-x-1/2 h-16 md:h-20 w-16 md:w-20 fill-slate-500"
     />
     <div
-      class="mt-8 md:mt-10 flex justify-start items-center gap-3 md:gap-5 p-3 md:p-5 bg-[#7745a5a8]"
+      class="mt-8 md:mt-10 flex justify-start items-center gap-3 md:gap-5 p-3 md:p-5 bg-[#7745a5a8] border-l-2 transition-colors duration-500"
+      :class="[email ? 'border-green-700' : 'border-red-700']"
     >
       <UserRoundedIcon fill="white" class="w-6 md:w-8 h-5 md:h-7" />
       <input
+        v-model="email"
         class="w-[80%] text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
         type="text"
         placeholder="e-mail"
@@ -17,10 +20,12 @@
     </div>
 
     <div
-      class="flex justify-start items-center gap-3 md:gap-5 p-3 md:p-5 bg-[#7745a5a8]"
+      class="flex justify-start items-center gap-3 md:gap-5 p-3 md:p-5 bg-[#7745a5a8] border-l-2 transition-colors duration-500"
+      :class="[password ? 'border-green-700' : 'border-red-700']"
     >
       <LockIcon fill="white" class="w-6 md:w-8 h-6 md:h-8" />
       <input
+        v-model="password"
         class="w-[80%] text-base md:text-lg text-white font-normal focus:outline-none rounded-sm bg-transparent placeholder-white/70"
         :type="showPassword ? 'text' : 'password'"
         placeholder="password"
@@ -46,17 +51,19 @@
     </div>
 
     <button
-      @click="login"
+      type="submit"
       class="w-full text-sm md:text-base p-2 md:p-3 uppercase font-bold bg-gray-200"
     >
       Login
     </button>
-  </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import LoginValidation from "@/validations/login";
+
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
@@ -66,13 +73,24 @@ import ClosedEyeIcon from "@/icons/ClosedEyeIcon.vue";
 const router = useRouter();
 const showPassword = ref(false);
 
-function handleShowPassword(): void {
-  showPassword.value = !showPassword.value;
+const email = ref("");
+const password = ref("");
+
+function onSubmit(): void {
+  try {
+    new LoginValidation();
+    login();
+  } catch {
+    //
+  }
 }
 
 function login() {
-  //TODO::Add truly login function
   localStorage.setItem("isLogged", "true");
   router.push("/home");
+}
+
+function handleShowPassword(): void {
+  showPassword.value = !showPassword.value;
 }
 </script>
