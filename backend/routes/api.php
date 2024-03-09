@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeacherController;
 
 /*
@@ -15,7 +16,14 @@ use App\Http\Controllers\TeacherController;
 |
 */
 
-Route::prefix('teachers')->group(function () {
-    Route::get('/', [TeacherController::class, 'getTeachers']);
-    Route::get('/{id}', [TeacherController::class, 'getTeacher']);
+Route::post('/auth', [AuthController::class, 'login']);
+
+
+Route::group(['middleware' => ['jwt.auth']], function () {
+
+    Route::prefix('teachers')->group(function () {
+        Route::get('/', [TeacherController::class, 'getTeachers']);
+        Route::get('/{id}', [TeacherController::class, 'getTeacher']);
+    });
+    
 });
