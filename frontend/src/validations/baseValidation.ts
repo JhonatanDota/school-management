@@ -5,8 +5,8 @@ export default abstract class BaseValidations {
   validationErrors: ValidationModel[] = [];
 
   abstract checkValidations(): void;
-  
-  handleValidation(){
+
+  handleValidation() {
     this.showValidationErrors(this.validationErrors);
 
     if (this.validationErrors.length) {
@@ -20,7 +20,7 @@ export default abstract class BaseValidations {
 
   showValidationErrors(errors: ValidationModel[]): void {
     errors.forEach((error: ValidationModel) => {
-      toast(error.message);
+      toast(`${error.field} - ${error.message}`, "warning");
     });
   }
 }

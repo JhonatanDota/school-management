@@ -30,7 +30,7 @@
         :type="showPassword ? 'text' : 'password'"
         placeholder="password"
       />
-      <button @click="handleShowPassword">
+      <button type="button" @click="handleShowPassword">
         <ClosedEyeIcon
           v-if="showPassword"
           fill="white"
@@ -47,7 +47,9 @@
           >Lembrar usuário ?</label
         >
       </div>
-      <button class="font-semibold text-[#3df85cb2]">Registrar</button>
+      <button type="button" class="font-semibold text-[#3df85cb2]">
+        Registrar
+      </button>
     </div>
 
     <button
@@ -78,7 +80,7 @@ const password = ref("");
 
 function onSubmit(): void {
   try {
-    new LoginValidation();
+    new LoginValidation(email.value, password.value);
     login();
   } catch {
     //
