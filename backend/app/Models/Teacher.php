@@ -21,6 +21,25 @@ class Teacher extends Model
         'is_active',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'school_id' => 'integer',
+        'name' => 'string',
+        'email' => 'string',
+        'is_active' => 'boolean',
+        'created_at' => 'datetime',
+    ];
+
+    /**
+     * Base Rules.
+     *
+     * @var array
+     */
     protected $baseRules = [
         'school_id' => 'required|exists:schools,id',
         'name' => 'required|max:255',
