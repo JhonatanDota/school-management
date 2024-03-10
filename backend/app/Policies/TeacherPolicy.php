@@ -22,4 +22,16 @@ class TeacherPolicy
     {
         return $user->school_id == $teacher->school_id;
     }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Teacher  $teacher
+     * @return bool
+     */
+    public function update(User $user, Teacher $teacher): bool
+    {
+        return $user->school_id == $teacher->school_id;
+    }
 }

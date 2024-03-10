@@ -25,5 +25,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/', [TeacherController::class, 'index']);
         Route::post('/', [TeacherController::class, 'store']);
         Route::get('/{id}', [TeacherController::class, 'show']);
+        Route::patch('/{id}', [TeacherController::class, 'update']);
     });
 });

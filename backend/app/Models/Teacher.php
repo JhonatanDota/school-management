@@ -35,17 +35,29 @@ class Teacher extends Model
         'name' => 'string',
         'email' => 'string',
         'is_active' => 'boolean',
-        'created_at' => 'datetime',
     ];
 
     /**
-     * Base Rules.
+     * Create Rules.
      *
      * @var array
      */
-    protected static $baseRules = [
-        'name' => 'required|max:255',
+    public static $createRules = [
+        'name' => 'required|string|max:255',
         'email' => 'required|email|unique:teachers,email,id_to_ignore',
+        'is_active' => 'boolean'
+    ];
+
+    /**
+     * Update Rules.
+     *
+     * @var array
+     */
+
+    public static $updateRules = [
+        'school_id' => 'prohibited',
+        'name' => 'string|max:255',
+        'email' => 'email|unique:teachers,email,id_to_ignore',
         'is_active' => 'boolean'
     ];
 }

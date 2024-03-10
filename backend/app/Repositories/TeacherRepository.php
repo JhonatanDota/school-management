@@ -46,4 +46,20 @@ class TeacherRepository
     {
         return Teacher::create($data);
     }
+
+    /**
+     * Update Teacher.
+     *
+     * @param int $id
+     * @param  array $data
+     * @return Teacher
+     */
+
+    public function update(int $id, array $data): Teacher
+    {
+        $teacher = Teacher::find($id);
+        $teacher->update($data);
+
+        return $teacher;
+    }
 }

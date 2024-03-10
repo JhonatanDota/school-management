@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use App\Models\Teacher;
 
-class CreateTeacherRequest extends FormRequest
+class UpdateTeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,6 @@ class CreateTeacherRequest extends FormRequest
      */
     public function rules()
     {
-        return Teacher::$createRules;
+        return Teacher::$updateRules;
     }
 }
