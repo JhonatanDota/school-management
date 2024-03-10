@@ -42,7 +42,7 @@ class Teacher extends Model
      */
     protected static $baseRules = [
         'name' => 'required|max:255',
-        'email' => 'required|email',
+        'email' => 'required|email|unique:teachers,email,id_to_ignore',
         'is_active' => 'boolean'
     ];
 }
