@@ -41,7 +41,6 @@ class Teacher extends Model
      * @var array
      */
     protected static $baseRules = [
-        'school_id' => 'required|exists:schools,id',
         'name' => 'required|max:255',
         'email' => 'required|email',
         'is_active' => 'boolean'

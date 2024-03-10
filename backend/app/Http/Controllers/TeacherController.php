@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\JsonResponse;
 use App\Repositories\TeacherRepository;
 use App\Http\Requests\CreateTeacherRequest;
@@ -49,6 +51,9 @@ class TeacherController extends BaseController
 
     public function createTeacher(CreateTeacherRequest $request): JsonResponse
     {
-        return response()->json($this->teacherRepository->create($request->all()));
+        $inputs = $request->all();
+        $inputs['school_id'] = Auth::user()->school_id;
+
+        return response()->json($this->teacherRepository->create($inputs));
     }
 }
