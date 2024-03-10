@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
-class Model extends BaseModel
+abstract class Model extends BaseModel
 {
     /**
      * Base Rules.
      *
      * @var array
      */
-    protected $baseRules = [];
+    protected static $baseRules = [];
 
     /**
      * Rules to create object.
@@ -20,7 +20,7 @@ class Model extends BaseModel
      */
     public static function createRules(): array
     {
-        return array_merge(self::$baseRules, []);
+        return array_merge(static::$baseRules, []);
     }
 
     /**
@@ -30,6 +30,6 @@ class Model extends BaseModel
      */
     public static function updateRules(): array
     {
-        return array_merge(self::$baseRules, []);
+        return array_merge(static::$baseRules, []);
     }
 }

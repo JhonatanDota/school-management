@@ -20,7 +20,7 @@ class Klass extends Model
         'original_start_date',
     ];
 
-    protected $baseRules = [
+    static protected $baseRules = [
         'school_id' => 'required|exists:courses,id',
         'school_id' => 'required|exists:teachers,id',
     ];

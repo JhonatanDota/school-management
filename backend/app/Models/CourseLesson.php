@@ -20,13 +20,13 @@ class CourseLesson extends Model
         'order',
     ];
 
-    protected $baseRules = [
+    static protected $baseRules = [
         'course_id' => 'required|exists:courses,id',
         'name' => 'required|max:255',
         'order' => 'integer',
     ];
 
-    public static function updateRules(): array
+    static function updateRules(): array
     {
         return array_merge(self::$baseRules, [
             'order' => 'required|integer'

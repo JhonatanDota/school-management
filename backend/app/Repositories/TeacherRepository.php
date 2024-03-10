@@ -24,11 +24,23 @@ class TeacherRepository
      * Retrieve Teacher.
      *
      * @param  int $id
-     * @return LengthAwarePaginator
+     * @return Teacher
      */
 
     public function find(int $id): Teacher
     {
         return Teacher::findOrFail($id);
+    }
+
+    /**
+     * Create Teacher.
+     *
+     * @param  array $data
+     * @return Teacher
+     */
+
+    public function create(array $data): Teacher
+    {
+        return Teacher::create($data);
     }
 }

@@ -23,7 +23,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::prefix('teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'getTeachers']);
+        Route::post('/', [TeacherController::class, 'createTeacher']);
         Route::get('/{id}', [TeacherController::class, 'getTeacher']);
     });
-    
 });
