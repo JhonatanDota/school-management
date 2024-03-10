@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Models\Model;
+
+use App\Concerns\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Teacher extends Model
 {
     use HasFactory;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.

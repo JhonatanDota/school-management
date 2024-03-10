@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Teacher;
 
+use App\Http\Filters\TeacherFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TeacherRepository
@@ -13,12 +14,13 @@ class TeacherRepository
      * Retrieve paginated Teachers.
      *
      * @param int $schoolId
+     * @param TeacherFilter $filter
      * @return LengthAwarePaginator
      */
 
-    public function all(int $schoolId): LengthAwarePaginator
+    public function all(int $schoolId, TeacherFilter $filter): LengthAwarePaginator
     {
-        return Teacher::where('school_id', $schoolId)->paginate();
+        return Teacher::where('school_id', $schoolId)->filter($filter)->paginate();
     }
 
     /**

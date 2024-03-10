@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\TeacherRepository;
 use App\Http\Requests\CreateTeacherRequest;
+use App\Http\Filters\TeacherFilter;
 
 class TeacherController extends BaseController
 {
@@ -25,10 +26,10 @@ class TeacherController extends BaseController
      * @return JsonResponse
      */
 
-    public function getTeachers(): JsonResponse
+    public function getTeachers(TeacherFilter $filter): JsonResponse
     {
         $schoolId = Auth::user()->school_id;
-        return response()->json($this->teacherRepository->all($schoolId));
+        return response()->json($this->teacherRepository->all($schoolId, $filter));
     }
 
     /**
