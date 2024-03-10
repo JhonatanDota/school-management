@@ -12,12 +12,13 @@ class TeacherRepository
     /**
      * Retrieve paginated Teachers.
      *
+     * @param int $schoolId
      * @return LengthAwarePaginator
      */
 
-    public function all(): LengthAwarePaginator
+    public function all(int $schoolId): LengthAwarePaginator
     {
-        return Teacher::paginate();
+        return Teacher::where('school_id', $schoolId)->paginate();
     }
 
     /**

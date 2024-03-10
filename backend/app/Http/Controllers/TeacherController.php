@@ -27,7 +27,8 @@ class TeacherController extends BaseController
 
     public function getTeachers(): JsonResponse
     {
-        return response()->json($this->teacherRepository->all());
+        $schoolId = Auth::user()->school_id;
+        return response()->json($this->teacherRepository->all($schoolId));
     }
 
     /**
