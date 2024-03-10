@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +11,7 @@ use App\Repositories\TeacherRepository;
 use App\Http\Requests\CreateTeacherRequest;
 use App\Http\Filters\TeacherFilter;
 
-class TeacherController extends BaseController
+class TeacherController extends Controller
 {
     private TeacherRepository $teacherRepository;
 
@@ -26,7 +26,7 @@ class TeacherController extends BaseController
      * @return JsonResponse
      */
 
-    public function getTeachers(TeacherFilter $filter): JsonResponse
+    public function index(TeacherFilter $filter): JsonResponse
     {
         $schoolId = Auth::user()->school_id;
         return response()->json($this->teacherRepository->all($schoolId, $filter));
@@ -35,13 +35,18 @@ class TeacherController extends BaseController
     /**
      * Retrieve Teacher as JSON Response.
      *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @param int $id
      * @return JsonResponse
      */
 
-    public function getTeacher(int $id): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        return response()->json($this->teacherRepository->find($id));
+        $teacher = $this->teacherRepository->find($id);
+
+        $this->authorize('view', $teacher);
+
+        return response()->json($teacher);
     }
 
     /**
@@ -51,7 +56,7 @@ class TeacherController extends BaseController
      * @return JsonResponse
      */
 
-    public function createTeacher(CreateTeacherRequest $request): JsonResponse
+    public function store(CreateTeacherRequest $request): JsonResponse
     {
         $inputs = $request->all();
         $inputs['school_id'] = Auth::user()->school_id;

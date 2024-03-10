@@ -22,8 +22,8 @@ Route::post('/auth', [AuthController::class, 'login']);
 Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::prefix('teachers')->group(function () {
-        Route::get('/', [TeacherController::class, 'getTeachers']);
-        Route::post('/', [TeacherController::class, 'createTeacher']);
-        Route::get('/{id}', [TeacherController::class, 'getTeacher']);
+        Route::get('/', [TeacherController::class, 'index']);
+        Route::post('/', [TeacherController::class, 'store']);
+        Route::get('/{id}', [TeacherController::class, 'show']);
     });
 });

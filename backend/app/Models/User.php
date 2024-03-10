@@ -37,10 +37,13 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'id' => 'integer',
+        'school_id' => 'integer',
+        'name' => 'string',
+        'email' => 'string',
     ];
 
     /**
