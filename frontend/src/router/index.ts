@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import LoginPage from "@/pages/login/LoginPage.vue";
 import HomePage from "@/pages/HomePage.vue";
+import TeacherPage from "@/pages/teacher/TeacherPage.vue";
 import KlassPage from "@/pages/klass/KlassPage.vue";
 import StudentPage from "@/pages/student/StudentPage.vue";
 import FallbackPage from "@/pages/FallbackPage.vue";
@@ -12,6 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: false, hideSideMenu: true },
   },
   { path: "/home", component: HomePage, meta: { requiresAuth: true } },
+  { path: "/teachers", component: TeacherPage, meta: { requiresAuth: true } },
   { path: "/classes", component: KlassPage, meta: { requiresAuth: true } },
   { path: "/students", component: StudentPage, meta: { requiresAuth: true } },
   {
