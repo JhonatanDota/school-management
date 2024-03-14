@@ -87,7 +87,7 @@ function onSubmit(): void {
   }
 }
 
-function login() {
+function login(): void {
   localStorage.setItem("isLogged", "true");
   router.push("/home");
 }

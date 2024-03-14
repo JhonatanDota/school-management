@@ -15,6 +15,7 @@ export function toast(
     type,
     theme: "dark",
     transition: "flip",
+    hideProgressBar: true,
     autoClose: duration,
   } as ToastOptions);
 }
