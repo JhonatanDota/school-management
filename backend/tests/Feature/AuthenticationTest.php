@@ -16,7 +16,7 @@ class AuthenticationTest extends TestCase
      */
     public function testTryAuthWithoutCredentials(): void
     {
-        $response = $this->json('POST', 'api/auth/', [], ['Accept' => 'application/json']);
+        $response = $this->json('POST', 'api/auth/');
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['email', 'password']);
@@ -33,7 +33,7 @@ class AuthenticationTest extends TestCase
      */
     public function testTryAuthWithoutEmail(): void
     {
-        $response = $this->json('POST', 'api/auth/', ['password' => '12345'], ['Accept' => 'application/json']);
+        $response = $this->json('POST', 'api/auth/', ['password' => '12345']);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['email']);
@@ -50,8 +50,7 @@ class AuthenticationTest extends TestCase
         $response = $this->json(
             'POST',
             'api/auth/',
-            ['email' => 'invalid_email', 'password' => '12345'],
-            ['Accept' => 'application/json']
+            ['email' => 'invalid_email', 'password' => '12345']
         );
 
         $response->assertStatus(422);
@@ -66,11 +65,30 @@ class AuthenticationTest extends TestCase
      */
     public function testTryAuthWithoutPassword(): void
     {
-        $response = $this->json('POST', 'api/auth/', ['email' => 'test@email.com'], ['Accept' => 'application/json']);
+        $response = $this->json('POST', 'api/auth/', ['email' => 'test@email.com']);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['password']);
         $response->assertJsonFragment(['password' => ['The password field is required.']]);
+    }
+
+    /**
+     * Test try auth with invaid credentials.
+     *
+     * @return void
+     */
+    public function testTryAuthWithInvalidCredentials(): void
+    {
+        $response = $this->json(
+            'POST',
+            'api/auth/',
+            [
+                'email' => 'test@email.com',
+                'password' => '12345'
+            ]
+        );
+
+        $response->assertStatus(401);
     }
 
     /**
@@ -83,7 +101,7 @@ class AuthenticationTest extends TestCase
         $email = 'test@email.com';
         $password = '54321';
 
-        User::factory()->create([
+        $user = User::factory()->create([
             'email' => $email,
             'password' => Hash::make($password)
         ]);
@@ -94,8 +112,7 @@ class AuthenticationTest extends TestCase
             [
                 'email' => $email,
                 'password' => $password
-            ],
-            ['Accept' => 'application/json']
+            ]
         );
 
         $response->assertStatus(200);
@@ -111,5 +128,65 @@ class AuthenticationTest extends TestCase
                 'updated_at',
             ],
         ]);
+        $response->assertJsonFragment([
+            'id' => $user->id,
+            'school_id' => $user->school_id,
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
+    }
+
+    /**
+     * Test try logout not logged.
+     *
+     * @return void
+     */
+    public function testTryLogoutNotLogged(): void
+    {
+        $response = $this->json('POST', 'api/logout/');
+        $response->assertStatus(401);
+    }
+
+    /**
+     * Test logout successfully.
+     *
+     * @return void
+     */
+    public function testLogoutSuccessfully(): void
+    {
+        $email = 'test@email.com';
+        $password = '54321';
+
+        User::factory()->create([
+            'email' => $email,
+            'password' => Hash::make($password)
+        ]);
+
+        // Logging
+
+        $loginResponse = $this->json(
+            'POST',
+            'api/auth/',
+            [
+                'email' => $email,
+                'password' => $password
+            ]
+        );
+
+        $loginResponse->assertStatus(200);
+
+        $token = $loginResponse['token'];
+
+        // Access route logged
+
+        $this->json('GET', 'api/teachers/', [], $this->authorization($token))->assertStatus(200);
+
+        // Logout
+
+        $this->json('POST', 'api/logout/', [], $this->authorization($token))->assertStatus(200);
+
+        // Try access route after logout
+
+        $this->json('GET', 'api/teachers/', [], $this->authorization($token))->assertStatus(401);
     }
 }

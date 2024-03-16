@@ -20,6 +20,7 @@ Route::post('/auth', [AuthController::class, 'login']);
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::prefix('teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'index']);
@@ -27,4 +28,5 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/{id}', [TeacherController::class, 'show']);
         Route::patch('/{id}', [TeacherController::class, 'update']);
     });
+
 });

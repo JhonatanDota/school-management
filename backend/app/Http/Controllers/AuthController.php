@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function login(AuthRequest $request)
+    public function login(AuthRequest $request): JsonResponse
     {
         $token = Auth::attempt($request->all());
 
@@ -26,5 +27,18 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user
         ]);
+    }
+
+
+    /**
+     * Invalidate the token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(): JsonResponse
+    {
+        Auth::logout();
+
+        return response()->json([], 200);
     }
 }

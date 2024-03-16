@@ -9,4 +9,18 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use DatabaseTransactions;
+
+    /**
+     * Retrieve Bearer authorization.
+     *
+     * @param string $token
+     * @return array
+     */
+
+    protected function authorization(string $token): array
+    {
+        return [
+            'Authorization' => "Bearer $token"
+        ];
+    }
 }
