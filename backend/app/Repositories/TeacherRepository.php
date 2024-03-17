@@ -44,7 +44,7 @@ class TeacherRepository
 
     public function create(array $data): Teacher
     {
-        return Teacher::create($data);
+        return Teacher::create($data)->refresh();
     }
 
     /**

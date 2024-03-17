@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
     {
         $token = Auth::attempt($request->all());
 
-        if (!$token) return response()->json([], 401);
+        if (!$token) return response()->json([], Response::HTTP_UNAUTHORIZED);
 
         $user = Auth::user();
 
@@ -39,6 +40,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return response()->json([], 200);
+        return response()->json([]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\JsonResponse;
@@ -62,7 +63,7 @@ class TeacherController extends Controller
         $inputs = $request->all();
         $inputs['school_id'] = Auth::user()->school_id;
 
-        return response()->json($this->teacherRepository->create($inputs));
+        return response()->json($this->teacherRepository->create($inputs), Response::HTTP_CREATED);
     }
 
     /**
