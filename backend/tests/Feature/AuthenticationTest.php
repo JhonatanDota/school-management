@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class AuthenticationTest extends TestCase
@@ -19,7 +18,7 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->json('POST', 'api/auth/');
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['email', 'password']);
         $response->assertJsonFragment([
             'email' => ['The email field is required.'],
@@ -36,7 +35,7 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->json('POST', 'api/auth/', ['password' => '12345']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['email']);
         $response->assertJsonFragment(['email' => ['The email field is required.']]);
     }
@@ -54,7 +53,7 @@ class AuthenticationTest extends TestCase
             ['email' => 'invalid_email', 'password' => '12345']
         );
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['email']);
         $response->assertJsonFragment(['email' => ['The email must be a valid email address.']]);
     }
@@ -68,7 +67,7 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->json('POST', 'api/auth/', ['email' => 'test@email.com']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['password']);
         $response->assertJsonFragment(['password' => ['The password field is required.']]);
     }
@@ -89,7 +88,7 @@ class AuthenticationTest extends TestCase
             ]
         );
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertUnauthorized();
     }
 
     /**
@@ -116,7 +115,7 @@ class AuthenticationTest extends TestCase
             ]
         );
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertOk();
         $response->assertJsonStructure([
             'token',
             'user' => [
@@ -145,7 +144,7 @@ class AuthenticationTest extends TestCase
     public function testTryLogoutNotLogged(): void
     {
         $response = $this->json('POST', 'api/logout/');
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertUnauthorized();
     }
 
     /**
@@ -174,20 +173,20 @@ class AuthenticationTest extends TestCase
             ]
         );
 
-        $loginResponse->assertStatus(Response::HTTP_OK);
+        $loginResponse->assertOk();
 
         $token = $loginResponse['token'];
 
         // Access route logged
 
-        $this->json('GET', 'api/teachers/', [], $this->authorization($token))->assertStatus(Response::HTTP_OK);
+        $this->json('GET', 'api/teachers/', [], $this->authorization($token))->assertOk();
 
         // Logout
 
-        $this->json('POST', 'api/logout/', [], $this->authorization($token))->assertStatus(Response::HTTP_OK);
+        $this->json('POST', 'api/logout/', [], $this->authorization($token))->assertOk();
 
         // Try access route after logout
 
-        $this->json('GET', 'api/teachers/', [], $this->authorization($token))->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $this->json('GET', 'api/teachers/', [], $this->authorization($token))->assertUnauthorized();
     }
 }

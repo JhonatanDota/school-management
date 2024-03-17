@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\School;
 use App\Models\Teacher;
-use Illuminate\Http\Response;
 
 class TeacherTest extends TestCase
 {
@@ -34,12 +33,11 @@ class TeacherTest extends TestCase
     public function testTryAccessTeacherRoutesNotLogged(): void
     {
         $fakeId = 1;
-        $unauthorizedStatus = Response::HTTP_UNAUTHORIZED;
 
-        $this->json('GET', 'api/teachers/')->assertStatus($unauthorizedStatus);
-        $this->json('POST', 'api/teachers/')->assertStatus($unauthorizedStatus);
-        $this->json('GET', "api/teachers/$fakeId/")->assertStatus($unauthorizedStatus);
-        $this->json('PATCH', "api/teachers/$fakeId/")->assertStatus($unauthorizedStatus);
+        $this->json('GET', 'api/teachers/')->assertUnauthorized();
+        $this->json('POST', 'api/teachers/')->assertUnauthorized();
+        $this->json('GET', "api/teachers/$fakeId/")->assertUnauthorized();
+        $this->json('PATCH', "api/teachers/$fakeId/")->assertUnauthorized();
     }
 
     /**
@@ -55,7 +53,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('GET', 'api/teachers/');
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertOk();
         $response->assertJsonFragment([
             'data' => [],
             'total' => 0,
@@ -76,7 +74,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('GET', 'api/teachers/');
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertOk();
         $response->assertJsonFragment(['total' => $teachers->count()]);
         $response->assertJsonCount($teachers->count(), 'data');
         $response->assertJsonStructure([
@@ -107,7 +105,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('GET', "api/teachers/$teacher->id/");
 
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertForbidden();
         $response->assertJsonFragment(['message' => 'This action is unauthorized.']);
     }
 
@@ -124,7 +122,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('GET', "api/teachers/$teacher->id/");
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertOk();
         $response->assertJsonStructure([
             'id',
             'school_id',
@@ -147,7 +145,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('POST', 'api/teachers/');
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name', 'email']);
         $response->assertJsonFragment([
             'name' => ['The name field is required.'],
@@ -166,7 +164,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('POST', 'api/teachers/', ['email' => 'user@teste.com']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
         $response->assertJsonFragment([
             'name' => ['The name field is required.'],
@@ -184,7 +182,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('POST', 'api/teachers/', ['name' => 'User']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['email']);
         $response->assertJsonFragment([
             'email' => ['The email field is required.'],
@@ -202,7 +200,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('POST', 'api/teachers/', ['name' => 'User', 'email' => 'invalid_email']);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['email']);
         $response->assertJsonFragment([
             'email' => ['The email must be a valid email address.'],
@@ -223,7 +221,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('POST', 'api/teachers/', ['name' => $name, 'email' => $email]);
 
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertCreated();
         $response->assertJsonStructure([
             'id',
             'school_id',
@@ -257,7 +255,7 @@ class TeacherTest extends TestCase
             'email' => 'user@email.com'
         ]);
 
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertCreated();
         $response->assertJsonFragment([
             'school_id' => $this->user->school_id
         ]);
