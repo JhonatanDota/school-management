@@ -8,7 +8,10 @@ down:
 	docker-compose down
 
 setup:
-	docker-compose exec backend bash -c "php artisan migrate:fresh && php artisan db:seed"
+	docker-compose exec backend bash -c "php artisan migrate:fresh"
+
+load:
+	docker-compose exec backend bash -c "php artisan db:seed"
 
 sh:
 	docker-compose exec backend bash
