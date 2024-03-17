@@ -4,9 +4,10 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
+
 use App\Models\User;
 use App\Models\Teacher;
-use App\Models\School;
+use Illuminate\Http\Response;
 
 class TeacherTest extends TestCase
 {
@@ -32,11 +33,12 @@ class TeacherTest extends TestCase
     public function testTryAccessTeacherRoutesNotLogged(): void
     {
         $fakeId = 1;
+        $unauthorizedStatus = Response::HTTP_UNAUTHORIZED;
 
-        $this->json('GET', 'api/teachers/')->assertStatus(401);
-        $this->json('POST', 'api/teachers/')->assertStatus(401);
-        $this->json('GET', "api/teachers/$fakeId/")->assertStatus(401);
-        $this->json('PATCH', "api/teachers/$fakeId/")->assertStatus(401);
+        $this->json('GET', 'api/teachers/')->assertStatus($unauthorizedStatus);
+        $this->json('POST', 'api/teachers/')->assertStatus($unauthorizedStatus);
+        $this->json('GET', "api/teachers/$fakeId/")->assertStatus($unauthorizedStatus);
+        $this->json('PATCH', "api/teachers/$fakeId/")->assertStatus($unauthorizedStatus);
     }
 
     /**
@@ -52,7 +54,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('GET', 'api/teachers/');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonFragment([
             'data' => [],
             'total' => 0,
@@ -60,11 +62,11 @@ class TeacherTest extends TestCase
     }
 
     /**
-     * Test get teachers.
+     * Test get teachers in same school.
      *
      * @return void
      */
-    public function testGetTeachers(): void
+    public function testGetTeachersSameSchool(): void
     {
         $this->actingAs($this->user);
 
@@ -73,7 +75,7 @@ class TeacherTest extends TestCase
 
         $response = $this->json('GET', 'api/teachers/');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonFragment(['total' => $teachers->count()]);
         $response->assertJsonCount($teachers->count(), 'data');
         $response->assertJsonStructure([
@@ -87,6 +89,47 @@ class TeacherTest extends TestCase
                     'updated_at',
                 ]
             ],
+        ]);
+    }
+
+    /**
+     * Test check user can`t see teacher from another school.
+     *
+     * @return void
+     */
+    public function testCheckUserCantSeeTeacherFromAnotherSchool(): void
+    {
+        $this->actingAs($this->user);
+
+        $teacher = Teacher::factory()->create();
+
+        $response = $this->json('GET', "api/teachers/$teacher->id/");
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertJsonFragment(['message' => 'This action is unauthorized.']);
+    }
+
+    /**
+     * Test get teacher in same school.
+     *
+     * @return void
+     */
+    public function testGetTeacherSameSchool(): void
+    {
+        $this->actingAs($this->user);
+
+        $teacher = Teacher::factory(['school_id' => $this->user->school_id])->create();
+
+        $response = $this->json('GET', "api/teachers/$teacher->id/");
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            'id',
+            'school_id',
+            'name',
+            'email',
+            'created_at',
+            'updated_at',
         ]);
     }
 }
