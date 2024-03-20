@@ -110,11 +110,11 @@ class TeacherTest extends TestCase
     }
 
     /**
-     * Test get teacher in same school.
+     * Test get teacher.
      *
      * @return void
      */
-    public function testGetTeacherSameSchool(): void
+    public function testGetTeacher(): void
     {
         $this->actingAs($this->user);
 
@@ -260,4 +260,48 @@ class TeacherTest extends TestCase
             'school_id' => $this->user->school_id
         ]);
     }
+
+    /**
+     * Test check user can`t update teacher from another school.
+     *
+     * @return void
+     */
+    public function testCheckUserCantUpdateTeacherFromAnotherSchool(): void
+    {
+        $this->actingAs($this->user);
+
+        $teacher = Teacher::factory()->create();
+
+        $response = $this->json('PATCH', "api/teachers/$teacher->id/", ['name' => 'Another Name']);
+
+        $response->assertForbidden();
+        $response->assertJsonFragment(['message' => 'This action is unauthorized.']);
+    }
+
+    /**
+     * Test update teacher.
+     *
+     * @return void
+     */
+    public function testUpdateTeacher(): void
+    {
+        $this->actingAs($this->user);
+
+        $teacher = Teacher::factory(['school_id' => $this->user->school_id])->create();
+
+        $response = $this->json('PATCH', "api/teachers/$teacher->id/");
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'id',
+            'school_id',
+            'name',
+            'email',
+            'is_active',
+            'created_at',
+            'updated_at',
+        ]);
+    }
+
+    //TODO: Terminar os testes
 }
