@@ -25,7 +25,7 @@
 
       <router-link class="w-full" active-class="bg-[#632C96]" to="/teachers">
         <MenuItem
-          name="Instrutor"
+          name="Instrutores"
           :icon="TeacherIcon"
           :isMenuOpen="isMenuOpen"
         />
