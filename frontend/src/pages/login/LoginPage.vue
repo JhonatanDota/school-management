@@ -40,16 +40,15 @@
       </button>
     </div>
 
-    <div class="flex items-center justify-between text-sm md:text-base">
+    <div class="flex items-center text-sm md:text-base select-none">
       <div class="flex gap-2">
         <input id="checkbox-remember" class="" type="checkbox" />
-        <label for="checkbox-remember" class="text-gray-300 cursor-pointer"
+        <label
+          for="checkbox-remember"
+          class="text-gray-300 font-semibold cursor-pointer"
           >Lembrar usuário ?</label
         >
       </div>
-      <button type="button" class="font-semibold text-[#3df85cb2]">
-        Registrar
-      </button>
     </div>
 
     <button
@@ -65,12 +64,14 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LoginValidation from "@/validations/login";
+import { auth } from "@/requests/authRequests";
 
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
 import OpenedEyeIcon from "@/icons/OpenedEyeIcon.vue";
 import ClosedEyeIcon from "@/icons/ClosedEyeIcon.vue";
+import { AxiosError, AxiosResponse } from "axios";
 
 const router = useRouter();
 const showPassword = ref(false);
@@ -78,18 +79,18 @@ const showPassword = ref(false);
 const email = ref("");
 const password = ref("");
 
-function onSubmit(): void {
-  try {
-    new LoginValidation(email.value, password.value);
-    login();
-  } catch {
-    //
-  }
-}
+async function onSubmit(): void {
+  const emailValue: string = email.value;
+  const passwordValue: string = password.value;
 
-function login(): void {
-  localStorage.setItem("isLogged", "true");
-  router.push("/home");
+  try {
+    new LoginValidation(emailValue, passwordValue);
+    const authResponse: AxiosResponse = await auth(emailValue, passwordValue)
+
+    console.log(authResponse);
+  } catch {
+   //
+  }
 }
 
 function handleShowPassword(): void {
