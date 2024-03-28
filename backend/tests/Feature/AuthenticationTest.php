@@ -120,17 +120,12 @@ class AuthenticationTest extends TestCase
             'token',
             'user' => [
                 'id',
-                'school_id',
                 'name',
                 'email',
-                'email_verified_at',
-                'created_at',
-                'updated_at',
             ],
         ]);
         $response->assertJsonFragment([
             'id' => $user->id,
-            'school_id' => $user->school_id,
             'name' => $user->name,
             'email' => $user->email,
         ]);
