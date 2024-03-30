@@ -1,4 +1,11 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  RouteRecordRaw,
+  RouteLocationNormalized,
+  NavigationGuardNext,
+} from "vue-router";
+import { isLogged } from "@/functions/auth";
 import LoginPage from "@/pages/login/LoginPage.vue";
 import HomePage from "@/pages/HomePage.vue";
 import TeacherPage from "@/pages/teacher/TeacherPage.vue";
@@ -28,19 +35,25 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _, next) => {
-  const path = to.path;
-  const isAuthenticated = localStorage.getItem("isLogged");
-  const isAuthRequired = to.meta.requiresAuth;
+router.beforeEach(
+  (
+    to: RouteLocationNormalized,
+    _: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ) => {
+    const path = to.path;
+    const isAuthenticated: boolean = isLogged();
+    const isAuthRequired: boolean = Boolean(to.meta.requiresAuth);
 
-  if (path === "/") {
-    if (!isAuthenticated) return next();
-    return next("/home");
+    if (path === "/") {
+      if (!isAuthenticated) return next();
+      return next("/home");
+    }
+
+    if (isAuthRequired && !isAuthenticated) return next("/");
+
+    return next();
   }
-
-  if (isAuthRequired && !isAuthenticated) return next("/");
-
-  return next();
-});
+);
 
 export default router;

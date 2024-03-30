@@ -4,7 +4,7 @@ import axios, {
   AxiosResponse,
   HttpStatusCode,
 } from "axios";
-
+import { getToken, cleanStoredLoginData } from "@/functions/auth";
 import { toast } from "@/utils/functions/toast";
 
 const BASE_URL: string = process.env.VUE_APP_API_URL;
@@ -19,11 +19,12 @@ interface ErrorResponse {
 export function requester(): AxiosInstance {
   const axiosInstance: AxiosInstance = axios.create({
     baseURL: BASE_URL,
-    timeout: API_TIMEOUT_MILISECONDS,
     headers: {
       "Content-Type": "application/json",
       accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
     },
+    timeout: API_TIMEOUT_MILISECONDS,
   });
 
   axiosInstance.interceptors.response.use(
@@ -36,10 +37,20 @@ export function requester(): AxiosInstance {
         const statusCode: number = error.response.status;
 
         if (statusCode === HttpStatusCode.Unauthorized) {
-          console.log("xablaue");
+          const url: string | undefined = error.config?.url;
+
+          if (url === "auth") toast("Email ou senha incorretos", "warning");
+          else {
+            cleanStoredLoginData();
+            window.location.href = "/";
+          }
         } else if (statusCode === HttpStatusCode.UnprocessableEntity) {
           showRequestErrors(error.response.data as ErrorResponse);
+        } else {
+          toast("Ocorreu um erro no servidor", "error");
         }
+
+        throw new Error();
       }
     }
   );
@@ -50,7 +61,7 @@ export function requester(): AxiosInstance {
 export function showRequestErrors(error: ErrorResponse): void {
   Object.keys(error.errors).forEach((field) => {
     error.errors[field].forEach((message) => {
-      toast(`${field}: ${message}`, "error");
+      toast(`${field}: ${message}`, "warning");
     });
   });
 }

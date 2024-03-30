@@ -65,32 +65,42 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LoginValidation from "@/validations/login";
 import { auth } from "@/requests/authRequests";
+import { AxiosResponse, HttpStatusCode } from "axios";
+import AuthSuccessModel from "@/models/AuthSuccessModel";
+import { storeLoginData } from "@/functions/auth";
 
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
 import OpenedEyeIcon from "@/icons/OpenedEyeIcon.vue";
 import ClosedEyeIcon from "@/icons/ClosedEyeIcon.vue";
-import { AxiosError, AxiosResponse } from "axios";
 
 const router = useRouter();
 const showPassword = ref(false);
 
-const email = ref("");
-const password = ref("");
+const email = ref("della.heidenreich@example.org");
+const password = ref("test1234");
 
-async function onSubmit(): void {
+async function onSubmit(): Promise<void> {
   const emailValue: string = email.value;
   const passwordValue: string = password.value;
 
   try {
     new LoginValidation(emailValue, passwordValue);
-    const authResponse: AxiosResponse = await auth(emailValue, passwordValue)
+    const authResponse: AxiosResponse<AuthSuccessModel> = await auth(
+      emailValue,
+      passwordValue
+    );
 
-    console.log(authResponse);
+    handleAuth(authResponse.data);
   } catch {
-   //
+    //
   }
+}
+
+function handleAuth(data: AuthSuccessModel): void {
+  storeLoginData(data);
+  router.push("/home");
 }
 
 function handleShowPassword(): void {

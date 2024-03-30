@@ -53,6 +53,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { logout as logoutRequest } from "@/requests/authRequests";
+import { cleanStoredLoginData } from "@/functions/auth";
 import MenuStripesIcon from "@/icons/MenuStripesIcon.vue";
 import MenuUser from "@/components/menu/MenuUser.vue";
 import MenuItem from "@/components/menu/MenuItem.vue";
@@ -69,9 +71,13 @@ function handleMenu(): void {
   isMenuOpen.value = !isMenuOpen.value;
 }
 
-function logout(): void {
-  //TODO::Add truly login function
-  localStorage.removeItem("isLogged");
-  router.push("/");
+async function logout(): Promise<void> {
+  try {
+    await logoutRequest();
+    cleanStoredLoginData();
+    router.push("/");
+  } catch {
+    //
+  }
 }
 </script>
