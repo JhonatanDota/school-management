@@ -65,7 +65,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LoginValidation from "@/validations/login";
 import { auth } from "@/requests/authRequests";
-import { AxiosResponse, HttpStatusCode } from "axios";
+import { AxiosResponse } from "axios";
 import AuthSuccessModel from "@/models/AuthSuccessModel";
 import { storeLoginData } from "@/functions/auth";
 
