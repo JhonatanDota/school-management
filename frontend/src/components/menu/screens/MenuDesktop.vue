@@ -1,7 +1,7 @@
 <template>
   <div
     class="sticky h-screen top-0 flex flex-col gap-6 pt-5 bg-[#222D32] transition-all duration-500 ease-out"
-    :class="[isMenuOpen ? 'w-32 md:w-48' : 'w-16 md:w-24']"
+    :class="[isMenuOpen ? 'w-48' : 'w-24']"
   >
     <button @click="handleMenu" class="absolute w-6 h-5 top-0 right-0">
       <MenuStripesIcon fill="white" />

@@ -278,6 +278,8 @@ class TeacherTest extends TestCase
         $response->assertJsonFragment(['message' => 'This action is unauthorized.']);
     }
 
+    //TODO: Arrumar esse test
+
     /**
      * Test update teacher.
      *
