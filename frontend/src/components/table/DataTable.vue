@@ -10,7 +10,11 @@
       </thead>
 
       <tbody>
-        <tr v-for="item in data" :key="item.id" class="text-sm text-center">
+        <tr
+          v-for="item in data"
+          :key="item.id"
+          class="text-sm text-center odd:bg-gray-600"
+        >
           <template v-for="(value, key) in item">
             <td v-if="tdKeys.includes(key)" :key="key" class="p-3">
               {{ value }}
