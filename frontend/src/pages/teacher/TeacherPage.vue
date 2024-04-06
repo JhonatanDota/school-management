@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <DataTable :thList="thList" :tdKeys="teacherTdKeys" :data="teachers" />
+      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="teachers" />
     </div>
   </ContainerPage>
 </template>
@@ -29,16 +29,8 @@ import ContainerPage from "@/pages/ContainerPage.vue";
 import TitlePage from "@/pages/TitlePage.vue";
 import AddTeacher from "@/components/teacher/AddTeacher.vue";
 import DataTable from "@/components/table/DataTable.vue";
-import { TeacherModel, teacherTdKeys } from "@/models/TeacherModel";
-import { ThModel } from "@/models/DataTableModel";
+import { TeacherModel, teacherTdKeys, teacherThList } from "@/models/TeacherModel";
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
-
-const thList: ThModel[] = [
-  { text: "Identificador" },
-  { text: "Nome" },
-  { text: "Email" },
-  { text: "Criado em" },
-];
 
 const teachers = ref<TeacherModel[]>([]);
 
