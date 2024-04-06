@@ -42,9 +42,8 @@ import HomeIcon from "@/icons/HomeIcon.vue";
 import TeacherIcon from "@/icons/TeacherIcon.vue";
 import StudentCapIcon from "@/icons/StudentCapIcon.vue";
 import ClassRoomIcon from "@/icons/ClassRoomIcon.vue";
-import LogoutIcon from "@/icons/LogoutIcon.vue";
 
-const isMenuOpen = ref(true);
+const isMenuOpen = ref(false);
 
 function handleMenu(): void {
   isMenuOpen.value = !isMenuOpen.value;
