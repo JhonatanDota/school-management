@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="teachers" />
+      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="[]" :loadingData="loadingData"/>
     </div>
   </ContainerPage>
 </template>
@@ -32,6 +32,7 @@ import DataTable from "@/components/table/DataTable.vue";
 import { TeacherModel, teacherTdKeys, teacherThList } from "@/models/TeacherModel";
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 
+const loadingData = ref<boolean>(true);
 const teachers = ref<TeacherModel[]>([]);
 
 onMounted(async () => {
@@ -40,6 +41,7 @@ onMounted(async () => {
     const responseData: TeacherPagination = teachersResponse.data;
 
     teachers.value = responseData.data;
+    loadingData.value = false;
   } catch {
     //
   }
