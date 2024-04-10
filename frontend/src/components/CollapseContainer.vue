@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <Collapse :when="open" class="transition-all duration-200">
+    <Collapse :when="open">
       <slot></slot>
     </Collapse>
   </div>
