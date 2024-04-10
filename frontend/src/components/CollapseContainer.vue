@@ -4,7 +4,7 @@
       @click="handleOpen"
       class="flex justify-between items-center cursor-pointer"
     >
-      <h2 class="text-base md:text-2xl font-bold text-white">{{ title }}</h2>
+      <h2 class="text-base md:text-xl font-bold text-white">{{ title }}</h2>
       <button class="w-5 h-5 md:w-10 md:h-10">
         <CircleArrowUp
           fill="white"

@@ -2,9 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    background-color: #e9e9ee;
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  background-color: #e9e9ee;
+}
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: transparent;
 }

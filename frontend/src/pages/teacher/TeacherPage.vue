@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="[]" :loadingData="loadingData"/>
+      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="teachers" :loadingData="loadingData"/>
     </div>
   </ContainerPage>
 </template>
