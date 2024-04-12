@@ -59,7 +59,7 @@ interface DataTableProps {
   thList: ThModel[];
   tdKeys: string[];
   loadingData: boolean;
-  data: Record<string, any>[];
+  data: Record<string, string | number>[];
 }
 
 withDefaults(defineProps<DataTableProps>(), {
