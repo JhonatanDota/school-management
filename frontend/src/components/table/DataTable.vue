@@ -12,7 +12,7 @@
     >
       <thead>
         <th
-          class="text-base md:text-lg p-4"
+          class="text-base md:text-lg p-4 md:p-5"
           v-for="(th, index) in thList"
           :key="index"
         >
@@ -27,7 +27,7 @@
           class="text-sm md:text-base text-center odd:bg-gray-600"
         >
           <template v-for="(value, key) in item">
-            <td v-if="tdKeys.includes(key)" :key="key" class="p-3">
+            <td v-if="tdKeys.includes(key)" :key="key" class="p-3 md:p-6">
               {{ value }}
             </td>
           </template>
