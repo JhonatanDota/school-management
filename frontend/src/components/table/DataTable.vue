@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="!loadingData"
     class="overflow-x-scroll"
     v-motion
     :initial="{ opacity: 0, x: -100 }"
@@ -20,7 +19,13 @@
         </th>
       </thead>
 
-      <tbody>
+      <tbody
+        v-if="!isLoading"
+        v-motion
+        :initial="{ opacity: 0, x: -100 }"
+        :enter="{ opacity: 1, x: 0 }"
+        :delay="300"
+      >
         <tr
           v-for="item in data"
           :key="item.id"
@@ -34,15 +39,17 @@
         </tr>
       </tbody>
     </table>
-    <div class="flex justify-center my-5 md:my-10">
+
+    <div class="flex justify-center">
       <LoadIcon
-        v-if="loadingData"
-        class="animate-pulse w-10 h-10"
+        v-if="isLoading"
+        class="animate-pulse w-10 h-10 md:w-14 md:h-14 mt-5 md:mt-8"
         fill="#632C96"
       />
+
       <p
-        v-if="!loadingData && !data.length"
-        class="text-sm md:text-xl font-medium tracking-wider uppercase"
+        v-if="!isLoading && !data.length"
+        class="text-sm md:text-xl font-medium tracking-wider uppercase mt-5 md:mt-8"
       >
         Sem dados 😢
       </p>
@@ -58,11 +65,11 @@ import LoadIcon from "@/icons/LoadIcon.vue";
 interface DataTableProps {
   thList: ThModel[];
   tdKeys: string[];
-  loadingData: boolean;
+  isLoading: boolean;
   data: Record<string, string | number>[];
 }
 
 withDefaults(defineProps<DataTableProps>(), {
-  loadingData: true,
+  isLoading: true,
 });
 </script>

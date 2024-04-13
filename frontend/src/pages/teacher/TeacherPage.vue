@@ -17,7 +17,13 @@
         </div>
       </div>
 
-      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="teachers" :loadingData="loadingData"/>
+      <DataTable
+        :thList="teacherThList"
+        :tdKeys="teacherTdKeys"
+        :data="teachers"
+        :isLoading="loadingData"
+      />
+      <DataTablePagination />
     </div>
   </ContainerPage>
 </template>
@@ -29,7 +35,12 @@ import ContainerPage from "@/pages/ContainerPage.vue";
 import TitlePage from "@/pages/TitlePage.vue";
 import AddTeacher from "@/components/teacher/AddTeacher.vue";
 import DataTable from "@/components/table/DataTable.vue";
-import { TeacherModel, teacherTdKeys, teacherThList } from "@/models/TeacherModel";
+import DataTablePagination from "@/components/table/DataTablePagination.vue";
+import {
+  TeacherModel,
+  teacherTdKeys,
+  teacherThList,
+} from "@/models/TeacherModel";
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 
 const loadingData = ref<boolean>(true);
@@ -37,8 +48,8 @@ const teachers = ref<TeacherModel[]>([]);
 
 onMounted(async () => {
   try {
-    const teachersResponse = await getTeachers();
-    const responseData: TeacherPagination = teachersResponse.data;
+    const response = await getTeachers();
+    const responseData: TeacherPagination = response.data;
 
     teachers.value = responseData.data;
     loadingData.value = false;
