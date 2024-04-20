@@ -1,15 +1,16 @@
 <template>
-  <div class="flex flex-col items-center">
-    <div class="flex gap-3">
+  <div class="flex flex-col items-center gap-2 md:gap-4">
+    <div class="flex items-center gap-5">
       <button
+        class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
         @click="!currentIsFirst && changePage(pagination.current_page - 1)"
         :disabled="currentIsFirst"
       >
-        <FilledLeftArrow />
+        <FilledLeftArrow class="w-full h-full" />
       </button>
 
       <select
-        class="p-3 bg-green-500 rounded-md font-bold focus:outline-none"
+        class="appearance-none px-4 md:px-6 py-2 bg-[#7745a5] text-white text-base md:text-lg rounded-md font-bold focus:outline-none"
         v-model="currentPage"
         @change="pageSelectionChange($event)"
       >
@@ -23,13 +24,17 @@
       </select>
 
       <button
+        class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
         @click="!currentIsLast && changePage(pagination.current_page + 1)"
         :disabled="currentIsLast"
       >
-        <FilledRightArrow />
+        <FilledRightArrow class="w-full h-full" />
       </button>
     </div>
-    <p>Total: {{ pagination.total }}</p>
+
+    <p class="text-base md:text-lg font-medium">
+      Total: <span> {{ pagination.total }} </span>
+    </p>
   </div>
 </template>
 
