@@ -9,6 +9,6 @@ export interface TeacherPagination extends PaginationModel {
   data: TeacherModel[];
 }
 
-export async function getTeachers(): Promise<AxiosResponse<TeacherPagination>> {
-  return await requester().get(TEACHERS_URL);
+export async function getTeachers(page?: number): Promise<AxiosResponse<TeacherPagination>> {
+  return await requester().get(TEACHERS_URL, {params: {page}});
 }

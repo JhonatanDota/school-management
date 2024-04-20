@@ -24,7 +24,7 @@
         v-motion
         :initial="{ opacity: 0, x: -100 }"
         :enter="{ opacity: 1, x: 0 }"
-        :delay="300"
+        :delay="100"
       >
         <tr
           v-for="item in data"

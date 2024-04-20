@@ -23,7 +23,13 @@
         :data="teachers"
         :isLoading="loadingData"
       />
-      <DataTablePagination />
+
+      <DataTablePagination
+        class="m-auto"
+        v-if="pagination"
+        :pagination="pagination"
+        @changePage="changePage"
+      />
     </div>
   </ContainerPage>
 </template>
@@ -42,19 +48,32 @@ import {
   teacherThList,
 } from "@/models/TeacherModel";
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
+import PaginationModel from "@/models/PaginationModel";
 
 const loadingData = ref<boolean>(true);
 const teachers = ref<TeacherModel[]>([]);
+const pagination = ref<PaginationModel>();
 
-onMounted(async () => {
+onMounted(getTeachersData);
+
+function changePage(page: number): void {
+  getTeachersData(page);
+}
+
+async function getTeachersData(page?: number): Promise<void> {
+  loadingData.value = true;
+
   try {
-    const response = await getTeachers();
+    const response = await getTeachers(page);
     const responseData: TeacherPagination = response.data;
 
     teachers.value = responseData.data;
-    loadingData.value = false;
+    pagination.value = response.data as PaginationModel;
   } catch {
     //
+  } finally {
+    loadingData.value = false;
   }
-});
+}
+
 </script>
