@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useRouter } from 'vue-router';
 import CollapseContainer from "@/components/CollapseContainer.vue";
 import ContainerPage from "@/pages/ContainerPage.vue";
 import TitlePage from "@/pages/TitlePage.vue";
@@ -50,14 +51,20 @@ import {
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 import PaginationModel from "@/models/PaginationModel";
 
+const router = useRouter();
 const loadingData = ref<boolean>(true);
 const teachers = ref<TeacherModel[]>([]);
 const pagination = ref<PaginationModel>();
 
-onMounted(getTeachersData);
+onMounted(function(): void {getTeachersData(); console.log(router.currentRoute.value.query)});
 
 function changePage(page: number): void {
   getTeachersData(page);
+  updateRouteQueryParams(page);
+}
+
+function updateRouteQueryParams(page: number):void{
+  router.push({ query: { page } });
 }
 
 async function getTeachersData(page?: number): Promise<void> {
