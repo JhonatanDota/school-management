@@ -1,33 +1,21 @@
 <template>
   <div class="flex flex-col items-center gap-2 md:gap-4">
     <div class="flex items-center gap-5">
-      <button
-        class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
-        @click="!currentIsFirst && changePage(pagination.current_page - 1)"
-        :disabled="currentIsFirst"
-      >
+      <button class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
+        @click="!currentIsFirst && changePage(pagination.current_page - 1)" :disabled="currentIsFirst">
         <FilledLeftArrow class="w-full h-full" />
       </button>
 
       <select
         class="appearance-none px-4 md:px-6 py-2 bg-[#7745a5] text-white text-base md:text-lg rounded-md font-bold focus:outline-none"
-        v-model="currentPage"
-        @change="pageSelectionChange($event)"
-      >
-        <option
-          v-for="pageNumber in pagination.last_page"
-          :key="pageNumber"
-          :value="pageNumber"
-        >
+        v-model="currentPage" @change="pageSelectionChange($event)">
+        <option v-for="pageNumber in pagination.last_page" :key="pageNumber" :value="pageNumber">
           {{ pageNumber }}
         </option>
       </select>
 
-      <button
-        class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
-        @click="!currentIsLast && changePage(pagination.current_page + 1)"
-        :disabled="currentIsLast"
-      >
+      <button class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
+        @click="!currentIsLast && changePage(pagination.current_page + 1)" :disabled="currentIsLast">
         <FilledRightArrow class="w-full h-full" />
       </button>
     </div>
@@ -44,7 +32,7 @@ import PaginationModel from "@/models/PaginationModel";
 import FilledLeftArrow from "@/icons/FilledLeftArrow.vue";
 import FilledRightArrow from "@/icons/FilledRightArrow.vue";
 
-const emit = defineEmits(["changePage"]);
+const emit = defineEmits(["setParams"]);
 
 interface DataTablePaginationProps {
   pagination: PaginationModel;
@@ -67,6 +55,6 @@ function pageSelectionChange(event: Event): void {
 
 function changePage(page: number): void {
   currentPage.value = page;
-  emit("changePage", page);
+  emit("setParams", { page });
 }
 </script>

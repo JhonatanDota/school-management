@@ -17,26 +17,16 @@
         </div>
       </div>
 
-      <DataTable
-        :thList="teacherThList"
-        :tdKeys="teacherTdKeys"
-        :data="teachers"
-        :isLoading="loadingData"
-      />
+      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="teachers" :isLoading="loadingData" />
 
-      <DataTablePagination
-        class="m-auto"
-        v-if="pagination"
-        :pagination="pagination"
-        @changePage="changePage"
-      />
+      <DataTablePagination class="m-auto" v-if="pagination" :pagination="pagination" @setParams="setParams" />
     </div>
   </ContainerPage>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRouter } from 'vue-router';
+import { ref, onMounted, watch } from "vue";
+import { LocationQuery, useRouter } from 'vue-router';
 import CollapseContainer from "@/components/CollapseContainer.vue";
 import ContainerPage from "@/pages/ContainerPage.vue";
 import TitlePage from "@/pages/TitlePage.vue";
@@ -51,27 +41,34 @@ import {
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 import PaginationModel from "@/models/PaginationModel";
 
+interface Params {
+  page?: number;
+}
+
 const router = useRouter();
 const loadingData = ref<boolean>(true);
 const teachers = ref<TeacherModel[]>([]);
 const pagination = ref<PaginationModel>();
+const params = ref<Params>(router.currentRoute.value.query);
 
-onMounted(function(): void {getTeachersData(); console.log(router.currentRoute.value.query)});
+watch(params, async function () {
+  getTeachersData(params.value);
+  updateRouteQueryParams(params.value);
+}, { immediate: true });
 
-function changePage(page: number): void {
-  getTeachersData(page);
-  updateRouteQueryParams(page);
+function setParams(newParams: Params): void {
+  params.value = { ...params.value, ...newParams };
 }
 
-function updateRouteQueryParams(page: number):void{
-  router.push({ query: { page } });
+function updateRouteQueryParams(params: Params): void {
+  router.push({ query: params as LocationQuery });
 }
 
-async function getTeachersData(page?: number): Promise<void> {
+async function getTeachersData(params: Params): Promise<void> {
   loadingData.value = true;
 
   try {
-    const response = await getTeachers(page);
+    const response = await getTeachers(params);
     const responseData: TeacherPagination = response.data;
 
     teachers.value = responseData.data;
