@@ -6,7 +6,7 @@
       <div class="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-8">
         <div class="md:col-span-1">
           <CollapseContainer class="bg-[#222D32]" title="Adicionar Professor">
-            <AddTeacher />
+            <AddTeacher :onAdd="setNewTeacher" />
           </CollapseContainer>
         </div>
 
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 import { LocationQuery, useRouter } from 'vue-router';
 import CollapseContainer from "@/components/CollapseContainer.vue";
 import ContainerPage from "@/pages/ContainerPage.vue";
@@ -33,17 +33,23 @@ import TitlePage from "@/pages/TitlePage.vue";
 import AddTeacher from "@/components/teacher/AddTeacher.vue";
 import DataTable from "@/components/table/DataTable.vue";
 import DataTablePagination from "@/components/table/DataTablePagination.vue";
-import {
-  TeacherModel,
-  teacherTdKeys,
-  teacherThList,
-} from "@/models/TeacherModel";
+import { ThModel } from "@/models/DataTableModel";
+import { TeacherModel } from "@/models/TeacherModel";
 import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 import PaginationModel from "@/models/PaginationModel";
 
 interface Params {
   page?: number;
 }
+
+const teacherTdKeys: string[] = ["id", "name", "email", "created_at"];
+
+const teacherThList: ThModel[] = [
+  { text: "Identificador" },
+  { text: "Nome" },
+  { text: "Email" },
+  { text: "Criado em" },
+];
 
 const router = useRouter();
 const loadingData = ref<boolean>(true);
@@ -78,6 +84,10 @@ async function getTeachersData(params: Params): Promise<void> {
   } finally {
     loadingData.value = false;
   }
+}
+
+function setNewTeacher(teacher: TeacherModel) {
+  teachers.value = [teacher, ...teachers.value];
 }
 
 </script>

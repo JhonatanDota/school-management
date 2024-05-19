@@ -1,46 +1,63 @@
 <template>
-  <form class="flex flex-col gap-3 md:gap-6 md:p-5" @submit.prevent="onSubmit">
+  <form class="flex flex-col gap-3 md:gap-6 pt-2 md:pt-5" @submit.prevent="onSubmit">
     <div class="flex flex-col gap-1 md:gap-3">
-      <label class="text-sm md:text-xl font-semibold text-green-600" for=""
-        >Nome</label
-      >
-      <input
-        class="text-base md:text-xl font-semibold bg-[#7745a5a8] w-full p-1 md:p-4 text-white focus:outline-none rounded-md"
-        type="text"
-        v-model="name"
-      />
+      <InputLabel text="Nome" track="name" />
+      <InputText id="name" v-model="teacherData.name" />
     </div>
+
     <div class="flex flex-col gap-1 md:gap-3">
-      <label class="text-sm md:text-xl font-semibold text-green-600" for=""
-        >Email</label
-      >
-      <input
-        class="text-base md:text-xl font-semibold bg-[#7745a5a8] w-full p-1 md:p-4 text-white focus:outline-none rounded-md"
-        type="text"
-        v-model="email"
-      />
+      <InputLabel text="Email" track="email" />
+      <InputText id="email" v-model="teacherData.email" />
     </div>
-    <button
-      type="submit"
-      class="text-xs md:text-lg self-end p-3 md:p-4 bg-green-600 text-white font-bold rounded-md mt-2"
-    >
+
+    <button type="submit"
+      class="text-sm md:text-lg self-end p-3 md:p-4 bg-green-600 text-white font-bold rounded-md mt-2">
       Adicionar
     </button>
   </form>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, defineProps } from "vue";
+import { TeacherAddModel, TeacherModel } from "@/models/TeacherModel";
+import { addTeacher } from "@/requests/teacherRequests";
 import AddTeacherValidation from "@/validations/teacher/addTeacher";
+import InputLabel from "@/components/common/inputs/InputLabel.vue";
+import InputText from "@/components/common/inputs/InputText.vue";
+import { AxiosResponse } from "axios";
+import { toast } from "@/utils/functions/toast";
 
-const name = ref();
-const email = ref();
+interface addTeacherProps {
+  onAdd: (teacher: TeacherModel) => void;
+}
 
-function onSubmit(): void {
+const props = defineProps<addTeacherProps>();
+
+const initialState = (): TeacherAddModel => ({
+  name: "",
+  email: ""
+});
+
+const teacherData: TeacherAddModel = reactive(initialState());
+
+const resetForm = () => {
+  Object.assign(teacherData, initialState());
+};
+
+async function onSubmit(): Promise<void> {
   try {
-    new AddTeacherValidation();
-  } catch {
+    new AddTeacherValidation(teacherData);
+
+    const response: AxiosResponse<TeacherModel> = await addTeacher(teacherData);
+    successfullyAdd(response.data);
+  } catch (error) {
     //
   }
+}
+
+function successfullyAdd(teacher: TeacherModel) {
+  props.onAdd(teacher);
+  toast("Professor cadastrado!");
+  resetForm();
 }
 </script>
