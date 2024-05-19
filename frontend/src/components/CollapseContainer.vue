@@ -1,16 +1,9 @@
 <template>
-  <div class="flex flex-col gap-3 p-6 rounded-md">
-    <div
-      @click="handleOpen"
-      class="flex justify-between items-center cursor-pointer"
-    >
-      <h2 class="text-base md:text-xl font-bold text-white">{{ title }}</h2>
-      <button class="w-5 h-5 md:w-10 md:h-10">
-        <CircleArrowUp
-          fill="white"
-          class="transition-all duration-300"
-          :class="[open ? '' : '-rotate-180']"
-        />
+  <div class="p-6 rounded-md">
+    <div @click="handleOpen" class="flex justify-between items-center cursor-pointer">
+      <h2 class="text-lg md:text-xl font-bold text-white">{{ title }}</h2>
+      <button class="w-6 h-6 md:w-10 md:h-10">
+        <CircleArrowUp fill="white" class="transition-all duration-300" :class="[open ? '' : '-rotate-180']" />
       </button>
     </div>
 
