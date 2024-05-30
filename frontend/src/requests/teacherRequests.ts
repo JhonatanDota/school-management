@@ -15,6 +15,12 @@ export async function getTeachers(
   return await requester().get(TEACHERS_URL, { params });
 }
 
+export async function getTeacher(
+  id: number
+): Promise<AxiosResponse<TeacherModel>> {
+  return await requester().get(`${TEACHERS_URL}/${id}`);
+}
+
 export async function addTeacher(
   data: TeacherAddModel
 ): Promise<AxiosResponse<TeacherModel>> {

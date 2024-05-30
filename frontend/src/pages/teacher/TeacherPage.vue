@@ -1,7 +1,6 @@
 <template>
   <ContainerPage>
     <TitlePage title="Professores" />
-
     <div class="flex flex-col gap-3">
       <div class="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-8">
         <div class="md:col-span-1">
@@ -11,14 +10,14 @@
         </div>
 
         <div class="md:col-span-1">
-          <CollapseContainer class="bg-[#222D32]" title="Outro Container">
-            <h1>Conteúdo do Container 2</h1>
+          <CollapseContainer class="bg-[#222D32]" title="Editar Professor">
+            <h1>{{ selectedTeacher?.name }}</h1>
           </CollapseContainer>
         </div>
       </div>
 
-      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :data="teachers" :isLoading="loadingData" />
-
+      <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :selectableRow="true" :data="teachers"
+        :isLoading="loadingData" @selectRowItemId="updateSelectedTeacher" />
       <DataTablePagination class="m-auto" v-if="pagination" :pagination="pagination" @setParams="setParams" />
     </div>
   </ContainerPage>
@@ -35,7 +34,7 @@ import DataTable from "@/components/table/DataTable.vue";
 import DataTablePagination from "@/components/table/DataTablePagination.vue";
 import { ThModel } from "@/models/DataTableModel";
 import { TeacherModel } from "@/models/TeacherModel";
-import { getTeachers, TeacherPagination } from "@/requests/teacherRequests";
+import { getTeacher, getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 import PaginationModel from "@/models/PaginationModel";
 
 interface Params {
@@ -52,8 +51,13 @@ const teacherThList: ThModel[] = [
 ];
 
 const router = useRouter();
+
 const loadingData = ref<boolean>(true);
+
 const teachers = ref<TeacherModel[]>([]);
+const selectedTeacher = ref<TeacherModel>();
+const selectedTeacherId = ref<number>();
+
 const pagination = ref<PaginationModel>();
 const params = ref<Params>(router.currentRoute.value.query);
 
@@ -61,6 +65,18 @@ watch(params, async function () {
   getTeachersData(params.value);
   updateRouteQueryParams(params.value);
 }, { immediate: true });
+
+watch(selectedTeacherId, async function () {
+  if (selectedTeacherId.value) {
+    try {
+      const getTeacherResponse = await getTeacher(selectedTeacherId.value)
+      selectedTeacher.value = getTeacherResponse.data;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch {
+      //
+    }
+  }
+});
 
 function setParams(newParams: Params): void {
   params.value = { ...params.value, ...newParams };
@@ -90,4 +106,7 @@ function setNewTeacher(teacher: TeacherModel) {
   teachers.value = [teacher, ...teachers.value];
 }
 
+function updateSelectedTeacher(id: number) {
+  selectedTeacherId.value = id;
+}
 </script>
