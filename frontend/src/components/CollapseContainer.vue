@@ -25,8 +25,12 @@ function handleOpen(): void {
   open.value = !open.value;
 }
 
-function forceOpen(): void{
+function forceOpen(): void {
   open.value = true;
+}
+
+function forceClose(): void {
+  open.value = false;
 }
 
 interface CollapseContainerProps {
@@ -36,6 +40,7 @@ interface CollapseContainerProps {
 defineProps<CollapseContainerProps>();
 
 defineExpose({
-  forceOpen
+  forceOpen,
+  forceClose
 });
 </script>

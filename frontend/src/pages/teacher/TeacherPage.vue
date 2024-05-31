@@ -4,14 +4,15 @@
     <div class="flex flex-col gap-3">
       <div class="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-8">
         <div class="md:col-span-1">
-          <CollapseContainer class="bg-[#222D32]" title="Adicionar Professor">
-            <AddTeacher :onAdd="setNewTeacher" />
+          <CollapseContainer class="bg-[#222D32]" title="Adicionar Professor" ref="collapseAddTeacherChild">
+            <AddTeacher :onAdd="onAddTeacher" />
           </CollapseContainer>
         </div>
 
         <div class="md:col-span-1">
           <CollapseContainer class="bg-[#222D32]" title="Editar Professor" ref="collapseEditTeacherChild">
-            <h1>{{ selectedTeacher ? selectedTeacher.name : "Nenhum professor selecionado" }}</h1>
+            <EditTeacher v-if="selectedTeacher" :teacher="selectedTeacher" />
+            <h1 v-else class="text-base  m-2 text-[#c75959] font-bold">Nenhum Professor Selecionado</h1>
           </CollapseContainer>
         </div>
       </div>
@@ -30,6 +31,7 @@ import CollapseContainer from "@/components/CollapseContainer.vue";
 import ContainerPage from "@/pages/ContainerPage.vue";
 import TitlePage from "@/pages/TitlePage.vue";
 import AddTeacher from "@/components/teacher/AddTeacher.vue";
+import EditTeacher from "@/components/teacher/EditTeacher.vue"
 import DataTable from "@/components/table/DataTable.vue";
 import DataTablePagination from "@/components/table/DataTablePagination.vue";
 import { teacherThList, teacherTdKeys } from "@/columns/ColumnsTeacher";
@@ -42,6 +44,7 @@ interface Params {
 }
 
 const router = useRouter();
+const collapseAddTeacherChild = ref<InstanceType<typeof CollapseContainer>>();
 const collapseEditTeacherChild = ref<InstanceType<typeof CollapseContainer>>();
 
 const loadingData = ref<boolean>(true);
@@ -96,11 +99,16 @@ function updateRouteQueryParams(params: Params): void {
   router.push({ query: params as LocationQuery });
 }
 
-function setNewTeacher(teacher: TeacherModel) {
+function onAddTeacher(teacher: TeacherModel): void {
+  setNewTeacher(teacher);
+  collapseAddTeacherChild.value?.forceClose();
+}
+
+function setNewTeacher(teacher: TeacherModel): void {
   teachers.value = [teacher, ...teachers.value];
 }
 
-function updateSelectedTeacher(id: number) {
+function updateSelectedTeacher(id: number): void {
   selectedTeacherId.value = id;
 }
 </script>
