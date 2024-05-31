@@ -10,8 +10,8 @@
         </div>
 
         <div class="md:col-span-1">
-          <CollapseContainer class="bg-[#222D32]" title="Editar Professor">
-            <h1>{{ selectedTeacher?.name }}</h1>
+          <CollapseContainer class="bg-[#222D32]" title="Editar Professor" ref="collapseEditTeacherChild">
+            <h1>{{ selectedTeacher ? selectedTeacher.name : "Nenhum professor selecionado" }}</h1>
           </CollapseContainer>
         </div>
       </div>
@@ -32,7 +32,7 @@ import TitlePage from "@/pages/TitlePage.vue";
 import AddTeacher from "@/components/teacher/AddTeacher.vue";
 import DataTable from "@/components/table/DataTable.vue";
 import DataTablePagination from "@/components/table/DataTablePagination.vue";
-import { ThModel } from "@/models/DataTableModel";
+import { teacherThList, teacherTdKeys } from "@/columns/ColumnsTeacher";
 import { TeacherModel } from "@/models/TeacherModel";
 import { getTeacher, getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 import PaginationModel from "@/models/PaginationModel";
@@ -41,16 +41,8 @@ interface Params {
   page?: number;
 }
 
-const teacherTdKeys: string[] = ["id", "name", "email", "created_at"];
-
-const teacherThList: ThModel[] = [
-  { text: "Identificador" },
-  { text: "Nome" },
-  { text: "Email" },
-  { text: "Criado em" },
-];
-
 const router = useRouter();
+const collapseEditTeacherChild = ref<InstanceType<typeof CollapseContainer>>();
 
 const loadingData = ref<boolean>(true);
 
@@ -71,20 +63,14 @@ watch(selectedTeacherId, async function () {
     try {
       const getTeacherResponse = await getTeacher(selectedTeacherId.value)
       selectedTeacher.value = getTeacherResponse.data;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      collapseEditTeacherChild.value?.forceOpen();
     } catch {
       //
     }
   }
 });
-
-function setParams(newParams: Params): void {
-  params.value = { ...params.value, ...newParams };
-}
-
-function updateRouteQueryParams(params: Params): void {
-  router.push({ query: params as LocationQuery });
-}
 
 async function getTeachersData(params: Params): Promise<void> {
   loadingData.value = true;
@@ -100,6 +86,14 @@ async function getTeachersData(params: Params): Promise<void> {
   } finally {
     loadingData.value = false;
   }
+}
+
+function setParams(newParams: Params): void {
+  params.value = { ...params.value, ...newParams };
+}
+
+function updateRouteQueryParams(params: Params): void {
+  router.push({ query: params as LocationQuery });
 }
 
 function setNewTeacher(teacher: TeacherModel) {

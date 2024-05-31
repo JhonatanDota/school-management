@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineExpose } from "vue";
 import { defineProps } from "vue";
 import { Collapse } from "vue-collapsed";
 import CircleArrowUp from "@/icons/CircleArrowUp.vue";
@@ -25,9 +25,17 @@ function handleOpen(): void {
   open.value = !open.value;
 }
 
-interface SectionContainerProps {
+function forceOpen(): void{
+  open.value = true;
+}
+
+interface CollapseContainerProps {
   title: string;
 }
 
-defineProps<SectionContainerProps>();
+defineProps<CollapseContainerProps>();
+
+defineExpose({
+  forceOpen
+});
 </script>
