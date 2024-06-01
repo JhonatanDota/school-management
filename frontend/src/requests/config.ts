@@ -7,7 +7,7 @@ import axios, {
 import { getToken, cleanStoredLoginData } from "@/functions/auth";
 import { toast } from "@/utils/functions/toast";
 
-const BASE_URL: string = process.env.VUE_APP_API_URL;
+const BASE_URL: string = process.env.VUE_APP_API_URL ?? "";
 const API_TIMEOUT_MILISECONDS: number = 10000;
 interface ErrorResponse {
   message: string;
