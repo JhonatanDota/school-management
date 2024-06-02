@@ -4,6 +4,7 @@ import axios, {
   AxiosResponse,
   HttpStatusCode,
 } from "axios";
+import applyCaseMiddleware from "axios-case-converter";
 import { getToken, cleanStoredLoginData } from "@/functions/auth";
 import { toast } from "@/utils/functions/toast";
 
@@ -17,15 +18,17 @@ interface ErrorResponse {
 }
 
 export function requester(): AxiosInstance {
-  const axiosInstance: AxiosInstance = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-      "Content-Type": "application/json",
-      accept: "application/json",
-      Authorization: `Bearer ${getToken()}`,
-    },
-    timeout: API_TIMEOUT_MILISECONDS,
-  });
+  const axiosInstance: AxiosInstance = applyCaseMiddleware(
+    axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      timeout: API_TIMEOUT_MILISECONDS,
+    })
+  );
 
   axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => {
