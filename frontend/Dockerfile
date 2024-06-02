@@ -1,12 +1,19 @@
-FROM node:18
+FROM node:18.17.1
+
+ARG USER_ID
+
+ARG GROUP_ID
 
 WORKDIR /app
 
-COPY package.json .
+COPY ./entrypoint.sh /opt/sbin/entrypoint.sh
 
-RUN mkdir -p /app/node_modules 
-RUN chown node:node /app/node_modules
+RUN chmod +x /opt/sbin/entrypoint.sh
 
-RUN npm install
+RUN chown -R $USER_ID:$GROUP_ID /app && chown -R $USER_ID:$GROUP_ID /opt/sbin
 
-CMD ["npm", "run", "serve"]
+EXPOSE 3000
+
+EXPOSE 6006
+
+ENTRYPOINT [ "/opt/sbin/entrypoint.sh" ]

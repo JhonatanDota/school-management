@@ -23,11 +23,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
     ports:
       - 3000:3000
     env_file: ./frontend/.env
     volumes:
       - ./frontend:/app/
-      - /app/node_modules
     networks:
       - app
