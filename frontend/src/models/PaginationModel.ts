@@ -1,7 +1,7 @@
 export default interface PaginationModel {
-  current_page: number;
-  last_page: number;
-  next_page_url: string | null;
-  prev_page_url: string | null;
+  currentPage: number;
+  lastPage: number;
+  nextPageUrl: string | null;
+  prevPageUrl: string | null;
   total: number;
 }

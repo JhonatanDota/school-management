@@ -2,20 +2,20 @@
   <div class="flex flex-col items-center gap-2 md:gap-4">
     <div class="flex items-center gap-5">
       <button class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
-        @click="!currentIsFirst && changePage(pagination.current_page - 1)" :disabled="currentIsFirst">
+        @click="!currentIsFirst && changePage(pagination.currentPage - 1)" :disabled="currentIsFirst">
         <FilledLeftArrow class="w-full h-full" />
       </button>
 
       <select
         class="appearance-none px-4 md:px-6 py-2 bg-[#7745a5] text-white text-base md:text-lg rounded-md font-bold focus:outline-none"
         v-model="currentPage" @change="pageSelectionChange($event)">
-        <option v-for="pageNumber in pagination.last_page" :key="pageNumber" :value="pageNumber">
+        <option v-for="pageNumber in pagination.lastPage" :key="pageNumber" :value="pageNumber">
           {{ pageNumber }}
         </option>
       </select>
 
       <button class="w-6 h-6 md:w-8 md:h-8 disabled:fill-gray-400"
-        @click="!currentIsLast && changePage(pagination.current_page + 1)" :disabled="currentIsLast">
+        @click="!currentIsLast && changePage(pagination.currentPage + 1)" :disabled="currentIsLast">
         <FilledRightArrow class="w-full h-full" />
       </button>
     </div>
@@ -40,10 +40,10 @@ interface DataTablePaginationProps {
 
 const props = defineProps<DataTablePaginationProps>();
 
-const currentPage = ref(props.pagination.current_page);
-const currentIsFirst = computed(() => props.pagination.current_page === 1);
+const currentPage = ref(props.pagination.currentPage);
+const currentIsFirst = computed(() => props.pagination.currentPage === 1);
 const currentIsLast = computed(
-  () => props.pagination.current_page === props.pagination.last_page
+  () => props.pagination.currentPage === props.pagination.lastPage
 );
 
 function pageSelectionChange(event: Event): void {

@@ -1,6 +1,6 @@
 import { ThModel } from "@/models/DataTableModel";
 
-export const teacherTdKeys: string[] = ["id", "name", "email", "created_at"];
+export const teacherTdKeys: string[] = ["id", "name", "email", "createdAt"];
 
 export const teacherThList: ThModel[] = [
   { text: "Identificador" },
