@@ -8,8 +8,9 @@
       </thead>
 
       <tbody v-if="!isLoading" v-motion :initial="{ opacity: 0, x: -100 }" :enter="{ opacity: 1, x: 0 }" :delay="100">
-        <tr :class="[selectableRow && 'cursor-pointer hover:bg-green-400/70']" v-for="item in data" :key="item.id"
-          @click="selectRowItemId(Number(item.id))" class="text-sm md:text-base text-center odd:bg-gray-600">
+        <tr :class="[selectableRow && 'cursor-pointer hover:bg-green-400/70']" v-for="item in data"
+          :key="Number(item.id)" @click="selectRowItemId(Number(item.id))"
+          class="text-sm md:text-base text-center odd:bg-gray-600">
           <template v-for="(value, key) in item">
             <td v-if="tdKeys.includes(key)" :key="key" class="p-3 md:p-6">
               {{ value }}
@@ -39,7 +40,7 @@ interface DataTableProps {
   tdKeys: string[];
   selectableRow: boolean;
   isLoading: boolean;
-  data: Record<string, string | number>[];
+  data: Record<string, string | number | boolean>[];
 }
 
 withDefaults(defineProps<DataTableProps>(), {

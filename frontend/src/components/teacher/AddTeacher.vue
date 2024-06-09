@@ -1,14 +1,14 @@
 <template>
   <form class="flex flex-col gap-3 md:gap-6 pt-2 md:pt-5" @submit.prevent="onSubmit">
-    <div class="flex flex-col gap-1 md:gap-3">
+    <InputContainer>
       <InputLabel text="Nome" track="name" />
       <InputText id="name" v-model="teacherData.name" />
-    </div>
+    </InputContainer>
 
-    <div class="flex flex-col gap-1 md:gap-3">
+    <InputContainer>
       <InputLabel text="Email" track="email" />
       <InputText id="email" v-model="teacherData.email" />
-    </div>
+    </InputContainer>
 
     <button type="submit"
       class="text-sm md:text-lg self-end p-3 md:p-4 bg-green-600 text-white font-bold rounded-md mt-2">
@@ -22,6 +22,7 @@ import { reactive, defineProps } from "vue";
 import { TeacherAddModel, TeacherModel } from "@/models/TeacherModel";
 import { addTeacher } from "@/requests/teacherRequests";
 import AddTeacherValidation from "@/validations/teacher/addTeacher";
+import InputContainer from "@/components/common/inputs/InputContainer.vue";
 import InputLabel from "@/components/common/inputs/InputLabel.vue";
 import InputText from "@/components/common/inputs/InputText.vue";
 import { AxiosResponse } from "axios";

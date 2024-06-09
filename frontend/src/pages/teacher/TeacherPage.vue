@@ -10,8 +10,12 @@
         </div>
 
         <div class="md:col-span-1">
-          <CollapseContainer class="bg-[#222D32]" title="Editar Professor" ref="collapseEditTeacherChild">
-            <EditTeacher v-if="selectedTeacher" :teacher="selectedTeacher" />
+          <CollapseContainer class="bg-[#222D32]" title="Informações do Professor" ref="collapseEditTeacherChild">
+            <div class="flex flex-col gap-3" v-if="selectedTeacher">
+              <EditTeacher :teacher="selectedTeacher">
+                <AdditionalInfoTeacher :teacher="selectedTeacher" />
+              </EditTeacher>
+            </div>
             <h1 v-else class="text-base  m-2 text-[#c75959] font-bold">Nenhum Professor Selecionado</h1>
           </CollapseContainer>
         </div>
@@ -32,6 +36,7 @@ import ContainerPage from "@/pages/ContainerPage.vue";
 import TitlePage from "@/pages/TitlePage.vue";
 import AddTeacher from "@/components/teacher/AddTeacher.vue";
 import EditTeacher from "@/components/teacher/EditTeacher.vue"
+import AdditionalInfoTeacher from "@/components/teacher/AdditionalInfoTeacher.vue";
 import DataTable from "@/components/table/DataTable.vue";
 import DataTablePagination from "@/components/table/DataTablePagination.vue";
 import { teacherThList, teacherTdKeys } from "@/columns/ColumnsTeacher";
