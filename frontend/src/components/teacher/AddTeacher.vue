@@ -19,10 +19,10 @@ import { reactive, defineProps } from "vue";
 import { TeacherAddModel, TeacherModel } from "@/models/TeacherModel";
 import { addTeacher } from "@/requests/teacherRequests";
 import AddTeacherValidation from "@/validations/teacher/addTeacher";
-import InputContainer from "@/components/common/inputs/InputContainer.vue";
-import InputLabel from "@/components/common/inputs/InputLabel.vue";
-import InputText from "@/components/common/inputs/InputText.vue";
-import SubmitButton from "@/components/common/SubmitButton.vue";
+import InputContainer from "@/components/common/form/inputs/InputContainer.vue";
+import InputLabel from "@/components/common/form/inputs/InputLabel.vue";
+import InputText from "@/components/common/form/inputs/InputText.vue";
+import SubmitButton from "@/components/common/form/SubmitButton.vue";
 import { AxiosResponse } from "axios";
 import { toast } from "@/utils/functions/toast";
 

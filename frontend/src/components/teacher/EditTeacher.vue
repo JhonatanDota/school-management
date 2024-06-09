@@ -24,11 +24,12 @@
 <script setup lang="ts">
 import { reactive, defineProps, watch } from 'vue';
 import { TeacherModel } from '@/models/TeacherModel';
-import InputContainer from '../common/inputs/InputContainer.vue';
-import InputLabel from '@/components/common/inputs/InputLabel.vue';
-import InputText from '@/components/common/inputs/InputText.vue';
-import InputToggle from '@/components/common/inputs/InputToggle.vue';
-import SubmitButton from '../common/SubmitButton.vue';
+
+import InputContainer from '@/components/common/form/inputs/InputContainer.vue';
+import InputLabel from '@/components/common/form/inputs/InputLabel.vue';
+import InputText from '@/components/common/form/inputs/InputText.vue';
+import InputToggle from '@/components/common/form/inputs/InputToggle.vue';
+import SubmitButton from '../common/form/SubmitButton.vue';
 
 interface EditTeacherProps {
     teacher: TeacherModel;
