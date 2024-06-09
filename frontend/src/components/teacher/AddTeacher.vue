@@ -10,10 +10,7 @@
       <InputText id="email" v-model="teacherData.email" />
     </InputContainer>
 
-    <button type="submit"
-      class="text-sm md:text-lg self-end p-3 md:p-4 bg-green-600 text-white font-bold rounded-md mt-2">
-      Adicionar
-    </button>
+    <SubmitButton text="Adicionar"/>
   </form>
 </template>
 
@@ -25,6 +22,7 @@ import AddTeacherValidation from "@/validations/teacher/addTeacher";
 import InputContainer from "@/components/common/inputs/InputContainer.vue";
 import InputLabel from "@/components/common/inputs/InputLabel.vue";
 import InputText from "@/components/common/inputs/InputText.vue";
+import SubmitButton from "@/components/common/SubmitButton.vue";
 import { AxiosResponse } from "axios";
 import { toast } from "@/utils/functions/toast";
 

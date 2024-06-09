@@ -17,10 +17,7 @@
 
         <slot></slot>
 
-        <button type="submit"
-            class="text-sm md:text-lg self-end p-3 md:p-4 bg-green-600 text-white font-bold rounded-md mt-2">
-            Adicionar
-        </button>
+        <SubmitButton text="Editar" />
     </form>
 </template>
 
@@ -31,6 +28,7 @@ import InputContainer from '../common/inputs/InputContainer.vue';
 import InputLabel from '@/components/common/inputs/InputLabel.vue';
 import InputText from '@/components/common/inputs/InputText.vue';
 import InputToggle from '@/components/common/inputs/InputToggle.vue';
+import SubmitButton from '../common/SubmitButton.vue';
 
 interface EditTeacherProps {
     teacher: TeacherModel;
