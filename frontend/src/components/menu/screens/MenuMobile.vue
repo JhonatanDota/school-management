@@ -16,7 +16,7 @@
       </router-link>
 
       <router-link class="w-full" active-class="bg-[#632C96]" to="/teachers">
-        <MenuItem name="Instrutores" :icon="TeacherIcon" :isMenuOpen="true" />
+        <MenuItem name="Professores" :icon="TeacherIcon" :isMenuOpen="true" />
       </router-link>
 
       <router-link class="w-full" active-class="bg-[#632C96]" to="/classes">
