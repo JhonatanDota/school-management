@@ -3,7 +3,8 @@ export interface TeacherModel {
   name: string;
   email: string;
   isActive: boolean;
-  createdAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type TeacherAddModel = Omit<TeacherModel, "id" | "isActive" | "createdAt">;

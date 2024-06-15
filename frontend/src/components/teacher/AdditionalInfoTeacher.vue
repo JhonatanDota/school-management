@@ -1,13 +1,22 @@
 <template>
-    <div class="flex flex-col gap-1">
-        <p class="text-base md:text-xl font-semibold text-green-600">Criado em</p>
-        <p class="text-white ml-2">{{ teacher.createdAt }}</p>
-    </div>
+    <AditionalInfoContainer>
+        <AdditionalInfoTitle text="Criado em" />
+        <AdditionalInfoValue :text="dateFormat(teacher.createdAt)" />
+    </AditionalInfoContainer>
+
+    <AditionalInfoContainer>
+        <AdditionalInfoTitle text="Última atualização em" />
+        <AdditionalInfoValue :text="dateFormat(teacher.updatedAt)" />
+    </AditionalInfoContainer>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { TeacherModel } from '@/models/TeacherModel';
+import AditionalInfoContainer from '@/components/common/aditionalInfo/AditionalInfoContainer.vue'
+import AdditionalInfoTitle from '../common/aditionalInfo/AdditionalInfoTitle.vue';
+import AdditionalInfoValue from '../common/aditionalInfo/AdditionalInfoValue.vue';
+import { dateFormat } from '@/utils/functions/date';
 
 interface AdditionalInfoTeacherProps {
     teacher: TeacherModel
