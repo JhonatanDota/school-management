@@ -1,13 +1,15 @@
 <template>
-    <AditionalInfoContainer>
-        <AdditionalInfoTitle text="Criado em" />
-        <AdditionalInfoValue :text="dateFormat(teacher.createdAt)" />
-    </AditionalInfoContainer>
+    <div class="flex flex-col gap-3 md:flex-row md:justify-between">
+        <AditionalInfoContainer>
+            <AdditionalInfoTitle text="Criado em" />
+            <AdditionalInfoValue :text="dateFormat(teacher.createdAt)" />
+        </AditionalInfoContainer>
 
-    <AditionalInfoContainer>
-        <AdditionalInfoTitle text="Última atualização em" />
-        <AdditionalInfoValue :text="dateFormat(teacher.updatedAt)" />
-    </AditionalInfoContainer>
+        <AditionalInfoContainer>
+            <AdditionalInfoTitle text="Última atualização em" />
+            <AdditionalInfoValue :text="dateFormat(teacher.updatedAt)" />
+        </AditionalInfoContainer>
+    </div>
 </template>
 
 <script setup lang="ts">
