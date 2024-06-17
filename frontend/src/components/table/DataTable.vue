@@ -40,7 +40,7 @@ interface DataTableProps {
   tdKeys: string[];
   selectableRow: boolean;
   isLoading: boolean;
-  data: Record<string, string | number | boolean>[];
+  data: Record<string, string | number | boolean | Date>[];
 }
 
 withDefaults(defineProps<DataTableProps>(), {
