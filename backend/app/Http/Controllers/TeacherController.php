@@ -60,7 +60,7 @@ class TeacherController extends Controller
 
     public function store(CreateTeacherRequest $request): JsonResponse
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['school_id'] = Auth::user()->school_id;
 
         return response()->json($this->teacherRepository->create($inputs), Response::HTTP_CREATED);
@@ -80,6 +80,6 @@ class TeacherController extends Controller
 
         $this->authorize('update', $teacher);
 
-        return response()->json($this->teacherRepository->update($id, $request->all()));
+        return response()->json($this->teacherRepository->update($id, $request->validated()));
     }
 }

@@ -25,6 +25,9 @@ class UpdateTeacherRequest extends FormRequest
      */
     public function rules()
     {
-        return Teacher::$updateRules;
+        $rules = Teacher::$updateRules;
+        $rules['email'] = str_replace(':id', $this->get('id'), $rules['email']);
+
+        return $rules;
     }
 }

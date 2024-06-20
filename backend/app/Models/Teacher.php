@@ -25,6 +25,13 @@ class Teacher extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['school_id'];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -44,7 +51,7 @@ class Teacher extends Model
      */
     public static $createRules = [
         'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:teachers,email,id_to_ignore',
+        'email' => 'required|email|unique:teachers,email',
         'is_active' => 'boolean'
     ];
 
@@ -57,7 +64,7 @@ class Teacher extends Model
     public static $updateRules = [
         'school_id' => 'prohibited',
         'name' => 'string|max:255',
-        'email' => 'email|unique:teachers,email,id_to_ignore',
+        'email' => 'email|unique:teachers,email,:id',
         'is_active' => 'boolean'
     ];
 }
