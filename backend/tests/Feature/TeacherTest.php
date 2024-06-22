@@ -81,7 +81,6 @@ class TeacherTest extends TestCase
             'data' => [
                 [
                     'id',
-                    'school_id',
                     'name',
                     'email',
                     'is_active',
@@ -125,7 +124,6 @@ class TeacherTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure([
             'id',
-            'school_id',
             'name',
             'email',
             'is_active',
@@ -224,7 +222,6 @@ class TeacherTest extends TestCase
         $response->assertCreated();
         $response->assertJsonStructure([
             'id',
-            'school_id',
             'name',
             'email',
             'is_active',
@@ -256,9 +253,13 @@ class TeacherTest extends TestCase
         ]);
 
         $response->assertCreated();
-        $response->assertJsonFragment([
-            'school_id' => $this->user->school_id
-        ]);
+
+        $teacherCreated = Teacher::find($response->json()['id']);
+
+        $this->assertEquals(
+            $teacherCreated->school_id,
+            $this->user->school_id
+        );
     }
 
     /**
@@ -278,7 +279,26 @@ class TeacherTest extends TestCase
         $response->assertJsonFragment(['message' => 'This action is unauthorized.']);
     }
 
-    //TODO: Arrumar esse test
+    /**
+     * Test can't update teacher school_id.
+     *
+     * @return void
+     */
+    public function testCantUpdateTeacherSchoolId(): void
+    {
+        $this->actingAs($this->user);
+
+        $teacher = Teacher::factory(['school_id' => $this->user->school_id])->create();
+
+        $response = $this->json('PATCH', "api/teachers/$teacher->id/");
+        $response->assertOk();
+
+        $responseUpdate = $this->json('PATCH', "api/teachers/$teacher->id/", [
+            'school_id' => 1
+        ]);
+
+        $responseUpdate->assertUnprocessable();
+    }
 
     /**
      * Test update teacher.
@@ -291,19 +311,28 @@ class TeacherTest extends TestCase
 
         $teacher = Teacher::factory(['school_id' => $this->user->school_id])->create();
 
-        $response = $this->json('PATCH', "api/teachers/$teacher->id/");
+        $newName = 'Test new name';
+        $newEmail = 'test_new_email@gmeil.new';
+
+        $response = $this->json('PATCH', "api/teachers/$teacher->id/", [
+            'name' => $newName,
+            'email' => $newEmail,
+            'is_active' => false,
+        ]);
 
         $response->assertOk();
         $response->assertJsonStructure([
             'id',
-            'school_id',
             'name',
             'email',
             'is_active',
             'created_at',
             'updated_at',
         ]);
+        $response->assertJsonFragment([
+            'name' => $newName,
+            'email' => $newEmail,
+            'is_active' => false,
+        ]);
     }
-
-    //TODO: Terminar os testes
 }
