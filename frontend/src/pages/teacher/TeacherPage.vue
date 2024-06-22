@@ -12,7 +12,7 @@
         <div class="md:col-span-1">
           <CollapseContainer class="bg-[#222D32]" title="Informações do Professor" ref="collapseEditTeacherChild">
             <div class="flex flex-col gap-3" v-if="selectedTeacher">
-              <EditTeacher :teacher="selectedTeacher">
+              <EditTeacher :teacher="selectedTeacher" :onEdit="onEditTeacher">
                 <AdditionalInfoTeacher :teacher="selectedTeacher" />
               </EditTeacher>
             </div>
@@ -23,7 +23,8 @@
 
       <DataTable :thList="teacherThList" :tdKeys="teacherTdKeys" :selectableRow="true" :data="teachers"
         :isLoading="loadingData" @selectRowItemId="updateSelectedTeacher" />
-      <DataTablePagination class="m-auto" v-if="pagination" :pagination="pagination" @setParams="setParams" />
+      <DataTablePagination class="m-auto" v-if="pagination && teachers.length" :pagination="pagination"
+        @setParams="setParams" />
     </div>
   </ContainerPage>
 </template>
@@ -107,6 +108,11 @@ function updateRouteQueryParams(params: Params): void {
 function onAddTeacher(teacher: TeacherModel): void {
   setNewTeacher(teacher);
   collapseAddTeacherChild.value?.forceClose();
+}
+
+function onEditTeacher(updatedTeacher: TeacherModel): void {
+  const teacher = teachers.value.find(teacher => teacher.id === updatedTeacher.id);
+  if (teacher) Object.assign(teacher, updatedTeacher);
 }
 
 function setNewTeacher(teacher: TeacherModel): void {

@@ -23,7 +23,11 @@
 
 <script setup lang="ts">
 import { reactive, defineProps, watch } from 'vue';
+import { AxiosResponse } from 'axios';
 import { TeacherModel } from '@/models/TeacherModel';
+import { editTeacher } from '@/requests/teacherRequests';
+import { toast } from '@/utils/functions/toast';
+import EditTeacherValidation from '@/validations/teacher/editTeacher';
 
 import InputContainer from '@/components/common/form/inputs/InputContainer.vue';
 import InputLabel from '@/components/common/form/inputs/InputLabel.vue';
@@ -33,6 +37,7 @@ import SubmitButton from '../common/form/SubmitButton.vue';
 
 interface EditTeacherProps {
     teacher: TeacherModel;
+    onEdit: (teacher: TeacherModel) => void;
 }
 
 const props = defineProps<EditTeacherProps>();
@@ -41,7 +46,15 @@ const initialState = (): TeacherModel => ({ ...props.teacher });
 const teacherData: TeacherModel = reactive(initialState());
 
 async function onSubmit() {
-    console.log(teacherData.id)
+    try {
+        new EditTeacherValidation(teacherData);
+
+        const response: AxiosResponse<TeacherModel> = await editTeacher(teacherData);
+        props.onEdit(response.data);
+        toast("Professor editado!");
+    } catch (error) {
+        //
+    }
 }
 
 watch(() => props.teacher, (newTeacher: TeacherModel) => {

@@ -7,4 +7,9 @@ export interface TeacherModel {
   updatedAt: Date;
 }
 
-export type TeacherAddModel = Omit<TeacherModel, "id" | "isActive" | "createdAt">;
+export type TeacherAddModel = Omit<
+  TeacherModel,
+  "id" | "isActive" | "createdAt" | "updatedAt"
+>;
+
+export type TeacherEditModel = Omit<TeacherModel, "createdAt" | "updatedAt">;

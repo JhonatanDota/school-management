@@ -1,6 +1,10 @@
 import { requester } from "./config";
 import { AxiosResponse } from "axios";
-import { TeacherModel, TeacherAddModel } from "@/models/TeacherModel";
+import {
+  TeacherModel,
+  TeacherAddModel,
+  TeacherEditModel,
+} from "@/models/TeacherModel";
 import PaginationModel from "@/models/PaginationModel";
 
 const TEACHERS_URL: string = "teachers";
@@ -25,4 +29,10 @@ export async function addTeacher(
   data: TeacherAddModel
 ): Promise<AxiosResponse<TeacherModel>> {
   return await requester().post(TEACHERS_URL, data);
+}
+
+export async function editTeacher(
+  data: TeacherEditModel
+): Promise<AxiosResponse<TeacherModel>> {
+  return await requester().patch(`${TEACHERS_URL}/${data.id}`, data);
 }
