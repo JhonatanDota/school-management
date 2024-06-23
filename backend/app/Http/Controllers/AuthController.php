@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,7 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request): JsonResponse
     {
-        $token = Auth::attempt($request->all());
+        $token = JWTAuth::attempt($request->validated());
 
         if (!$token) return response()->json([], Response::HTTP_UNAUTHORIZED);
 
