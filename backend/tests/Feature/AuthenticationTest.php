@@ -116,19 +116,7 @@ class AuthenticationTest extends TestCase
         );
 
         $response->assertOk();
-        $response->assertJsonStructure([
-            'token',
-            'user' => [
-                'id',
-                'name',
-                'email',
-            ],
-        ]);
-        $response->assertJsonFragment([
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-        ]);
+        $response->assertJsonStructure(['token']);
     }
 
     /**
