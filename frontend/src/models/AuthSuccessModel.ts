@@ -1,8 +1,11 @@
-export default interface SuccessLoginInterface {
-    token: string,
-    user: {
-      id: number;
-      name: string;
-      email: string;
-    }
-  }
+import UserTypeEnum from "@/enums/UserTypeEnum";
+
+export interface AuthModel {
+  token: string;
+}
+
+export interface LoggedUserModel {
+  id: number;
+  name: string;
+  userType: UserTypeEnum;
+}

@@ -1,6 +1,6 @@
 import { requester } from "./config";
 import { AxiosResponse } from "axios";
-import AuthSuccessModel from "@/models/AuthSuccessModel";
+import { AuthModel } from "@/models/AuthSuccessModel";
 
 const AUTH: string = "auth";
 const LOGOUT: string = "logout";
@@ -8,7 +8,7 @@ const LOGOUT: string = "logout";
 export async function auth(
   email: string,
   password: string
-): Promise<AxiosResponse<AuthSuccessModel>> {
+): Promise<AxiosResponse<AuthModel>> {
   return await requester().post(AUTH, {
     email,
     password,
