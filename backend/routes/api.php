@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TeacherController;
 
 /*
@@ -20,6 +21,7 @@ Route::post('/auth', [AuthController::class, 'login']);
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::get('/me', [UserController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::prefix('teachers')->group(function () {
