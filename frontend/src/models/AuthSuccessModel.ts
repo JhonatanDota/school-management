@@ -5,7 +5,7 @@ export interface AuthModel {
 }
 
 export interface LoggedUserModel {
-  id: number;
-  name: string;
-  userType: UserTypeEnum;
+  id?: number;
+  name?: string;
+  userType?: UserTypeEnum;
 }

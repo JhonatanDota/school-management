@@ -9,6 +9,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
+import userStore from "./stores/userStore";
+import { getToken } from "./functions/auth";
 import MenuDesktop from "./components/menu/screens/MenuDesktop.vue";
 import MenuMobile from "./components/menu/screens/MenuMobile.vue";
 
@@ -29,4 +31,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("resize", checkIsMobile);
 });
+
+if (getToken()) userStore().fill();
 </script>

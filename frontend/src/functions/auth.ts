@@ -1,12 +1,12 @@
-import { AuthModel, LoggedUserModel } from "@/models/AuthSuccessModel";
-import { jwtDecode, JwtPayload } from "jwt-decode";
 import Cookies from "js-cookie";
+import userStore from "@/stores/userStore";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import { AuthModel, LoggedUserModel } from "@/models/AuthSuccessModel";
 
-const TOKEN_STORAGE_KEY: string = "token";
-const USER_STORAGE_KEY: string = "user";
+const TOKEN_COOKIE_KEY: string = "token";
 
-export function getToken(): string | null {
-  return localStorage.getItem(TOKEN_STORAGE_KEY);
+export function getToken(): string | undefined {
+  return Cookies.get(TOKEN_COOKIE_KEY);
 }
 
 export function getUserFromToken(token: string): LoggedUserModel {
@@ -17,15 +17,17 @@ export function getUserFromToken(token: string): LoggedUserModel {
   return user;
 }
 
-export function storeLoginData(data: AuthModel): void {
-  localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
+export function storeLoginData(authData: AuthModel): void {
+  const token: string = authData.token;
+
+  Cookies.set(TOKEN_COOKIE_KEY, token);
+  userStore().setUser(getUserFromToken(token));
 }
 
 export function cleanStoredLoginData(): void {
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
-  localStorage.removeItem(USER_STORAGE_KEY);
+  Cookies.remove(TOKEN_COOKIE_KEY);
 }
 
 export function isLogged(): boolean {
-  return Boolean(localStorage.getItem(TOKEN_STORAGE_KEY));
+  return Boolean(Cookies.get(TOKEN_COOKIE_KEY));
 }

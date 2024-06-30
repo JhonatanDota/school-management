@@ -39,13 +39,12 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import userStore from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import LoginValidation from "@/validations/login";
 import { auth } from "@/requests/authRequests";
 import { AxiosResponse } from "axios";
 import { AuthModel } from "@/models/AuthSuccessModel";
-import { getUserFromToken, storeLoginData } from "@/functions/auth";
+import { storeLoginData } from "@/functions/auth";
 import UserIcon from "@/icons/UserIcon.vue";
 import UserRoundedIcon from "@/icons/UserRoundedIcon.vue";
 import LockIcon from "@/icons/LockIcon.vue";
@@ -75,10 +74,8 @@ async function onSubmit(): Promise<void> {
   }
 }
 
-function handleAuth(data: AuthModel): void {
-  storeLoginData(data);
-  userStore().setUser(getUserFromToken(data.token));
-
+function handleAuth(authData: AuthModel): void {
+  storeLoginData(authData);
   router.push("/home");
 }
 
