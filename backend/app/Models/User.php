@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'user_type',
+        'image',
     ];
 
     /**
@@ -32,6 +34,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
+        'image',
         'remember_token',
         'email_verified_at',
     ];
@@ -46,7 +49,28 @@ class User extends Authenticatable implements JWTSubject
         'school_id' => 'integer',
         'name' => 'string',
         'email' => 'string',
+        'image' => 'string',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['image_url'];
+
+    /**
+     * Return image url.
+     *
+     * @return string
+     */
+
+    public function getImageUrlAttribute(): ?string
+    {
+        $image = $this->image;
+
+        return $image ? Storage::url($this->image) : $image;
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

@@ -19,7 +19,8 @@ class UserFactory extends Factory
             'school_id' => School::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('test1234')
+            'password' => Hash::make('test1234'),
+            'image' => $this->faker->optional()->image(storage_path('app/public'), 50, 50, fullPath: false)
         ];
     }
 
