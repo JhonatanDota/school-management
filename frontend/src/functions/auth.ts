@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 import userStore from "@/stores/userStore";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import { AuthModel, LoggedUserModel } from "@/models/AuthSuccessModel";
+import { AuthModel } from "@/models/AuthSuccessModel";
 
 const TOKEN_COOKIE_KEY: string = "token";
 
@@ -13,6 +12,7 @@ export function storeLoginData(authData: AuthModel): void {
   const token: string = authData.token;
 
   Cookies.set(TOKEN_COOKIE_KEY, token);
+  userStore().fill();
 }
 
 export function cleanStoredLoginData(): void {
