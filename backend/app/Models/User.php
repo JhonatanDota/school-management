@@ -93,6 +93,7 @@ class User extends Authenticatable implements JWTSubject
                 'id' => $this->id,
                 'name' => $this->name,
                 'user_type' => $this->user_type,
+                'image_url' => $this->getImageUrlAttribute()
             ]
         ];
     }

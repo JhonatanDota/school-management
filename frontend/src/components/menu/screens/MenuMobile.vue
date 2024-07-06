@@ -6,7 +6,7 @@
   <div class="fixed bg-[#222D32] transition-all ease-in-out duration-200 self-end z-10" :class="[
     isMenuOpen ? 'w-1/2 p-4 opacity-100' : 'w-0 opacity-0 overflow-hidden',
   ]">
-    <MenuUser name="Jhonatan" unitName="Super Admin" :isMenuOpen="true" />
+    <MenuUser :isMenuOpen="true" />
 
     <hr class="w-full bg-[#7745a5c2] h-1 my-2 border-none" />
 

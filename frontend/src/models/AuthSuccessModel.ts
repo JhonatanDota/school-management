@@ -7,5 +7,6 @@ export interface AuthModel {
 export interface LoggedUserModel {
   id?: number;
   name?: string;
+  imageUrl?: string;
   userType?: UserTypeEnum;
 }

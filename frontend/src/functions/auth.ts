@@ -9,19 +9,10 @@ export function getToken(): string | undefined {
   return Cookies.get(TOKEN_COOKIE_KEY);
 }
 
-export function getUserFromToken(token: string): LoggedUserModel {
-  const user: LoggedUserModel = jwtDecode<
-    JwtPayload & { user: LoggedUserModel }
-  >(token).user;
-
-  return user;
-}
-
 export function storeLoginData(authData: AuthModel): void {
   const token: string = authData.token;
 
   Cookies.set(TOKEN_COOKIE_KEY, token);
-  userStore().setUser(getUserFromToken(token));
 }
 
 export function cleanStoredLoginData(): void {

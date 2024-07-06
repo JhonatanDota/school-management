@@ -10,6 +10,7 @@ const userStore = defineStore("userStore", {
       this.id = user.id;
       this.name = user.name;
       this.userType = user.userType;
+      this.imageUrl = user.imageUrl;
     },
 
     async fill(): Promise<void> {

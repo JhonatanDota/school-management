@@ -14,7 +14,7 @@
       <LogoutIcon fill="white" />
     </button>
 
-    <MenuUser name="Jhonatan" unitName="Super Admin" :isMenuOpen="isMenuOpen" />
+    <MenuUser :isMenuOpen="isMenuOpen" />
 
     <hr class="w-full bg-[#7745a5c2] h-2 md:h-3 border-none" />
 
