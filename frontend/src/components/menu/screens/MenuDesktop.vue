@@ -1,16 +1,11 @@
 <template>
-  <div
-    class="sticky h-screen top-0 flex flex-col gap-6 pt-5 bg-[#222D32] transition-all duration-500 ease-out"
-    :class="[isMenuOpen ? 'w-48' : 'w-24']"
-  >
+  <div class="sticky h-screen top-0 flex flex-col gap-6 pt-5 bg-[#222D32] transition-all duration-300"
+    :class="[isMenuOpen ? 'w-48' : 'w-24']">
     <button @click="handleMenu" class="absolute w-6 h-5 top-0 right-0">
       <MenuStripesIcon fill="white" />
     </button>
 
-    <button
-      @click="logout"
-      class="absolute w-6 h-5 bottom-8 left-1/2 -translate-x-1/2"
-    >
+    <button @click="logout" class="absolute w-6 h-5 bottom-8 left-1/2 -translate-x-1/2">
       <LogoutIcon fill="white" />
     </button>
 
@@ -24,27 +19,15 @@
       </router-link>
 
       <router-link class="w-full" active-class="bg-[#632C96]" to="/teachers">
-        <MenuItem
-          name="Professores"
-          :icon="TeacherIcon"
-          :isMenuOpen="isMenuOpen"
-        />
+        <MenuItem name="Professores" :icon="TeacherIcon" :isMenuOpen="isMenuOpen" />
       </router-link>
 
       <router-link class="w-full" active-class="bg-[#632C96]" to="/classes">
-        <MenuItem
-          name="Turmas"
-          :icon="StudentCapIcon"
-          :isMenuOpen="isMenuOpen"
-        />
+        <MenuItem name="Turmas" :icon="StudentCapIcon" :isMenuOpen="isMenuOpen" />
       </router-link>
 
       <router-link class="w-full" active-class="bg-[#632C96]" to="/students">
-        <MenuItem
-          name="Alunos"
-          :icon="ClassRoomIcon"
-          :isMenuOpen="isMenuOpen"
-        />
+        <MenuItem name="Alunos" :icon="ClassRoomIcon" :isMenuOpen="isMenuOpen" />
       </router-link>
     </div>
   </div>
