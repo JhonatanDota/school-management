@@ -13,7 +13,7 @@
           class="text-sm md:text-base text-center odd:bg-gray-600">
           <template v-for="(value, key) in item">
             <td v-if="tdKeys.includes(key)" :key="key" class="p-3 md:p-6">
-              {{ value }}
+              {{ parseableKeys.hasOwnProperty(key) ? parseableKeys[key](value) : value }}
             </td>
           </template>
         </tr>
@@ -34,6 +34,7 @@
 import { defineProps, defineEmits, withDefaults } from "vue";
 import { ThModel } from "@/models/DataTableModel";
 import LoadIcon from "@/icons/LoadIcon.vue";
+import { dateFormat } from "@/utils/functions/date";
 
 interface DataTableProps {
   thList: ThModel[];
@@ -42,6 +43,14 @@ interface DataTableProps {
   isLoading: boolean;
   data: Record<string, string | number | boolean | Date>[];
 }
+
+const parseableKeys: Record<string, (value: any) => string> =
+{
+  "createdAt": (date: string) => dateFormat(new Date(date)),
+  "updatedAt": (date: string) => dateFormat(new Date(date)),
+  "isActive": (condition: boolean) => condition ? "Sim" : "Não",
+}
+
 
 withDefaults(defineProps<DataTableProps>(), {
   isLoading: true,
