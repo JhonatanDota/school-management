@@ -2,22 +2,34 @@ import { defineStore } from "pinia";
 import { LoggedUserModel } from "@/models/AuthSuccessModel";
 import { me } from "@/requests/authRequests";
 
-const initialState: LoggedUserModel = {};
+interface UserStoreInterface {
+  user: LoggedUserModel;
+  filling: boolean;
+}
+
+const initialState: UserStoreInterface = {
+  user: {},
+  filling: true,
+};
 
 const userStore = defineStore("userStore", {
-  state: (): LoggedUserModel => (initialState),
+  state: (): UserStoreInterface => initialState,
 
   actions: {
     setUser(user: LoggedUserModel): void {
-      this.id = user.id;
-      this.name = user.name;
-      this.userType = user.userType;
-      this.imageUrl = user.imageUrl;
+      this.user.id = user.id;
+      this.user.name = user.name;
+      this.user.userType = user.userType;
+      this.user.imageUrl = user.imageUrl;
     },
 
     async fill(): Promise<void> {
+      this.filling = true;
+
       const response = await me();
       this.setUser(response.data);
+
+      this.filling = false;
     },
   },
 });
