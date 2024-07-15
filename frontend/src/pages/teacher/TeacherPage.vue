@@ -112,7 +112,10 @@ function onAddTeacher(teacher: TeacherModel): void {
 
 function onEditTeacher(updatedTeacher: TeacherModel): void {
   const teacher = teachers.value.find(teacher => teacher.id === updatedTeacher.id);
-  if (teacher) Object.assign(teacher, updatedTeacher);
+  if (teacher) {
+    Object.assign(teacher, updatedTeacher);
+    selectedTeacher.value = updatedTeacher;
+  }
 }
 
 function setNewTeacher(teacher: TeacherModel): void {
