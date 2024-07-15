@@ -32,7 +32,8 @@ export async function addTeacher(
 }
 
 export async function editTeacher(
+  id: number,
   data: TeacherEditModel
 ): Promise<AxiosResponse<TeacherModel>> {
-  return await requester().patch(`${TEACHERS_URL}/${data.id}`, data);
+  return await requester().patch(`${TEACHERS_URL}/${id}`, data);
 }

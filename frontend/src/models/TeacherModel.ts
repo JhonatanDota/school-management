@@ -12,4 +12,7 @@ export type TeacherAddModel = Omit<
   "id" | "isActive" | "createdAt" | "updatedAt"
 >;
 
-export type TeacherEditModel = Omit<TeacherModel, "createdAt" | "updatedAt">;
+export type TeacherEditModel = Omit<
+  TeacherModel,
+  "id" | "createdAt" | "updatedAt"
+>;
