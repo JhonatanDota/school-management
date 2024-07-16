@@ -14,6 +14,6 @@ class TeacherFilter extends Filter
      */
     public function name(string $value = null): Builder
     {
-        return $this->builder->where('name', 'like', "{$value}%");
+        return $this->builder->where('name', 'like', "%{$value}%");
     }
 }
