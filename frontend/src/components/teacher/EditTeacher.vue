@@ -1,5 +1,5 @@
 <template>
-    <form class="flex flex-col gap-3 md:gap-6 pt-2 md:pt-5" @submit.prevent="onSubmit">
+    <form class="flex flex-col gap-3 md:gap-6" @submit.prevent="onSubmit">
         <InputContainer>
             <InputLabel text="Nome" track="name" />
             <InputText id="name" v-model="teacherData.name" />

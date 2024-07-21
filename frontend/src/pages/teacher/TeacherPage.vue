@@ -5,18 +5,28 @@
       <div class="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-8">
         <div class="md:col-span-1">
           <CollapseContainer class="bg-[#222D32]" title="Adicionar Professor" ref="collapseAddTeacherChild">
-            <AddTeacher :onAdd="onAddTeacher" />
+            <div class="pt-2 md:pt-5">
+              <AddTeacher :onAdd="onAddTeacher" />
+            </div>
           </CollapseContainer>
         </div>
 
         <div class="md:col-span-1">
           <CollapseContainer class="bg-[#222D32]" title="Informações do Professor" ref="collapseEditTeacherChild">
-            <div class="flex flex-col gap-3" v-if="selectedTeacher">
+            <div class="flex flex-col gap-3 pt-2 md:pt-5" v-if="selectedTeacher">
               <EditTeacher :teacher="selectedTeacher" :onEdit="onEditTeacher">
                 <AdditionalInfoTeacher :teacher="selectedTeacher" />
               </EditTeacher>
             </div>
-            <h1 v-else class="text-base  m-2 text-[#c75959] font-bold">Nenhum Professor Selecionado</h1>
+            <h1 v-else class="text-base m-2 text-[#c75959] font-bold">Nenhum Professor Selecionado</h1>
+          </CollapseContainer>
+        </div>
+
+        <div class="md:col-span-2">
+          <CollapseContainer class="bg-[#222D32]" title="Filtros">
+            <div class="pt-2 md:pt-5">
+              <FilterTeacher @setParams="setParams" :params="params" />
+            </div>
           </CollapseContainer>
         </div>
       </div>
@@ -44,10 +54,8 @@ import { teacherThList, teacherTdKeys } from "@/columns/ColumnsTeacher";
 import { TeacherModel } from "@/models/TeacherModel";
 import { getTeacher, getTeachers, TeacherPagination } from "@/requests/teacherRequests";
 import PaginationModel from "@/models/PaginationModel";
-
-interface Params {
-  page?: number;
-}
+import FilterTeacher from "@/filters/teacher/FilterTeacher.vue";
+import ParamsTeacher from "@/filters/teacher/ParamsTeacher";
 
 const router = useRouter();
 const collapseAddTeacherChild = ref<InstanceType<typeof CollapseContainer>>();
@@ -60,7 +68,7 @@ const selectedTeacher = ref<TeacherModel>();
 const selectedTeacherId = ref<number>();
 
 const pagination = ref<PaginationModel>();
-const params = ref<Params>(router.currentRoute.value.query);
+const params = ref<ParamsTeacher>(router.currentRoute.value.query);
 
 watch(params, async function () {
   getTeachersData(params.value);
@@ -81,7 +89,7 @@ watch(selectedTeacherId, async function () {
   }
 });
 
-async function getTeachersData(params: Params): Promise<void> {
+async function getTeachersData(params: ParamsTeacher): Promise<void> {
   loadingData.value = true;
 
   try {
@@ -97,11 +105,11 @@ async function getTeachersData(params: Params): Promise<void> {
   }
 }
 
-function setParams(newParams: Params): void {
+function setParams(newParams: ParamsTeacher): void {
   params.value = { ...params.value, ...newParams };
 }
 
-function updateRouteQueryParams(params: Params): void {
+function updateRouteQueryParams(params: ParamsTeacher): void {
   router.push({ query: params as LocationQuery });
 }
 

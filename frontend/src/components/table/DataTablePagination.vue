@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineProps, defineEmits } from "vue";
+import { ref, computed, defineProps, defineEmits, watch } from "vue";
 import PaginationModel from "@/models/PaginationModel";
 import FilledLeftArrow from "@/icons/FilledLeftArrow.vue";
 import FilledRightArrow from "@/icons/FilledRightArrow.vue";
@@ -45,6 +45,10 @@ const currentIsFirst = computed(() => props.pagination.currentPage === 1);
 const currentIsLast = computed(
   () => props.pagination.currentPage === props.pagination.lastPage
 );
+
+watch(props, function (value) {
+  currentPage.value = value.pagination.currentPage;
+});
 
 function pageSelectionChange(event: Event): void {
   const value: string = (event.target as HTMLInputElement).value;
