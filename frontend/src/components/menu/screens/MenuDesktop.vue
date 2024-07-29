@@ -18,6 +18,10 @@
         <MenuItem name="Home" :icon="HomeIcon" :isMenuOpen="isMenuOpen" />
       </router-link>
 
+      <router-link class="w-full" active-class="bg-[#632C96]" to="/courses">
+        <MenuItem name="Cursos" :icon="CourseIcon" :isMenuOpen="isMenuOpen" />
+      </router-link>
+
       <router-link class="w-full" active-class="bg-[#632C96]" to="/teachers">
         <MenuItem name="Professores" :icon="TeacherIcon" :isMenuOpen="isMenuOpen" />
       </router-link>
@@ -42,6 +46,7 @@ import MenuStripesIcon from "@/icons/MenuStripesIcon.vue";
 import MenuUser from "@/components/menu/MenuUser.vue";
 import MenuItem from "@/components/menu/MenuItem.vue";
 import HomeIcon from "@/icons/HomeIcon.vue";
+import CourseIcon from "@/icons/CourseIcon.vue";
 import TeacherIcon from "@/icons/TeacherIcon.vue";
 import StudentCapIcon from "@/icons/StudentCapIcon.vue";
 import ClassRoomIcon from "@/icons/ClassRoomIcon.vue";
