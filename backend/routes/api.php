@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TeacherController;
 
 /*
@@ -25,10 +26,14 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::prefix('teachers')->group(function () {
-        Route::get('/', [TeacherController::class, 'index']);
+        Route::get('/', [TeacherController::class, 'all']);
         Route::post('/', [TeacherController::class, 'store']);
         Route::get('/{id}', [TeacherController::class, 'show']);
         Route::patch('/{id}', [TeacherController::class, 'update']);
     });
 
+    Route::prefix('courses')->group(function () {
+        Route::get('/', [CourseController::class, 'all']);
+        Route::get('/{id}', [CourseController::class, 'show']);
+    });
 });

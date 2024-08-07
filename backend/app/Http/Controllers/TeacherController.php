@@ -28,7 +28,7 @@ class TeacherController extends Controller
      * @return JsonResponse
      */
 
-    public function index(TeacherFilter $filter): JsonResponse
+    public function all(TeacherFilter $filter): JsonResponse
     {
         $schoolId = Auth::user()->school_id;
         return response()->json($this->teacherRepository->all($schoolId, $filter));
