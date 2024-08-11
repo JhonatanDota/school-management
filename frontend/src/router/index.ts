@@ -9,6 +9,7 @@ import { isLogged } from "@/functions/auth";
 import LoginPage from "@/pages/login/LoginPage.vue";
 import HomePage from "@/pages/HomePage.vue";
 import CoursePage from "@/pages/course/CoursePage.vue";
+import CourseDetails from "@/pages/course/CourseDetails.vue";
 import TeacherPage from "@/pages/teacher/TeacherPage.vue";
 import KlassPage from "@/pages/klass/KlassPage.vue";
 import StudentPage from "@/pages/student/StudentPage.vue";
@@ -21,7 +22,9 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: false, hideSideMenu: true },
   },
   { path: "/home", component: HomePage, meta: { requiresAuth: true } },
+  { path: "/home", component: HomePage, meta: { requiresAuth: true } },
   { path: "/courses", component: CoursePage, meta: { requiresAuth: true } },
+  { path: "/courses/:id", component: CourseDetails, meta: { requiresAuth: true } },
   { path: "/teachers", component: TeacherPage, meta: { requiresAuth: true } },
   { path: "/classes", component: KlassPage, meta: { requiresAuth: true } },
   { path: "/students", component: StudentPage, meta: { requiresAuth: true } },
