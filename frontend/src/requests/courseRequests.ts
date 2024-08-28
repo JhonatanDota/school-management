@@ -1,7 +1,7 @@
 import { requester } from "./config";
 import PaginationModel from "@/models/PaginationModel";
 import { AxiosResponse } from "axios";
-import { CourseModel } from "@/models/CourseModel";
+import { CourseAddModel, CourseModel } from "@/models/CourseModel";
 
 const COURSES_URL: string = "courses";
 
@@ -11,4 +11,16 @@ export interface CoursePagination extends PaginationModel {
 
 export async function getCourses(): Promise<AxiosResponse<CoursePagination>> {
   return await requester().get(COURSES_URL);
+}
+
+export async function getCourse(
+  id: number
+): Promise<AxiosResponse<CourseModel>> {
+  return await requester().get(`${COURSES_URL}/${id}`);
+}
+
+export async function addCourse(
+  data: CourseAddModel
+): Promise<AxiosResponse<CourseModel>> {
+  return await requester().post(COURSES_URL, data);
 }

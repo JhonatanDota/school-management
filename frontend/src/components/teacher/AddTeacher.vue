@@ -39,9 +39,9 @@ const initialState = (): TeacherAddModel => ({
 
 const teacherData: TeacherAddModel = reactive(initialState());
 
-const resetForm = () => {
+function resetForm(): void {
   Object.assign(teacherData, initialState());
-};
+}
 
 async function onSubmit(): Promise<void> {
   try {

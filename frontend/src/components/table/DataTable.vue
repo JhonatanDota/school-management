@@ -13,7 +13,7 @@
           class="text-sm md:text-base text-center odd:bg-gray-600">
           <template v-for="(value, key) in item">
             <td v-if="tdKeys.includes(key)" :key="key" class="p-3 md:p-6">
-              {{ parseableKeys.hasOwnProperty(key) ? parseableKeys[key](value) : value }}
+              {{ parseableKeys.hasOwnProperty(key) ? parseableKeys[key](value) : value ?? '-' }}
             </td>
           </template>
         </tr>
