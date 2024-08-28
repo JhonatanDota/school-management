@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+
 use App\Repositories\CourseRepository;
+use App\Http\Requests\CreateCourseRequest;
 
 class CourseController extends Controller
 {
@@ -25,6 +28,21 @@ class CourseController extends Controller
     {
         $schoolId = Auth::user()->school_id;
         return response()->json($this->courseRepository->all($schoolId));
+    }
+
+    /**
+     * Create Course.
+     *
+     * @param CreateCourseRequest $request
+     * @return JsonResponse
+     */
+
+    public function store(CreateCourseRequest $request): JsonResponse
+    {
+        $inputs = $request->validated();
+        $inputs['school_id'] = Auth::user()->school_id;
+
+        return response()->json($this->courseRepository->create($inputs), Response::HTTP_CREATED);
     }
 
     /**

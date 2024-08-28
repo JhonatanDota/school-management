@@ -31,4 +31,16 @@ class CourseRepository
     {
         return Course::findOrFail($id);
     }
+
+    /**
+     * Create Course.
+     *
+     * @param array $data
+     * @return Course
+     */
+
+    public function create(array $data): Course
+    {
+        return Course::create($data)->refresh();
+    }
 }

@@ -54,7 +54,8 @@ class TeacherController extends Controller
     /**
      * Create Teacher.
      *
-     * @param int $id
+     * @param CreateTeacherRequest $request
+     * 
      * @return JsonResponse
      */
 

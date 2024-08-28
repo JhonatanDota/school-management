@@ -122,4 +122,87 @@ class CourseTest extends TestCase
             'updated_at',
         ]);
     }
+
+    /**
+     * Test try create course without data.
+     *
+     * @return void
+     */
+    public function testTryCreateCourseWithoutData(): void
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('POST', 'api/courses/');
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['name']);
+        $response->assertJsonFragment([
+            'name' => ['The name field is required.'],
+        ]);
+    }
+
+    /**
+     * Test try create course without name.
+     *
+     * @return void
+     */
+    public function testTryCreateCourseWithoutName(): void
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('POST', 'api/courses/', []);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['name']);
+        $response->assertJsonFragment([
+            'name' => ['The name field is required.'],
+        ]);
+    }
+
+    /**
+     * Test create course successfully.
+     *
+     * @return void
+     */
+    public function testCreateCourseSuccessfully(): void
+    {
+        $this->actingAs($this->user);
+
+        $name = 'Best course';
+        $description = 'Learn everthing about php :)';
+
+        $response = $this->json('POST', 'api/courses/', ['name' => $name, 'description' => $description]);
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'description',
+            'created_at',
+            'updated_at',
+        ]);
+        $response->assertJsonFragment([
+            'name' => $name,
+            'description' => $description,
+        ]);
+    }
+
+    /**
+     * Test create course without description.
+     *
+     * @return void
+     */
+    public function testCreateCourseWithoutDescription(): void
+    {
+        $this->actingAs($this->user);
+
+        $name = 'Best course';
+        $response = $this->json('POST', 'api/courses/', ['name' => $name]);
+
+        $response->assertCreated();
+        $response->assertJsonFragment([
+            'name' => $name,
+            'description' => null,
+        ]);
+    }
 }

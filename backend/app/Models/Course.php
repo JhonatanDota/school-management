@@ -20,10 +20,23 @@ class Course extends Model
         'description',
     ];
 
-    protected $baseRules = [
-        'school_id' => 'required|exists:schools,id',
-        'name' => 'required|max:255',
-        'description' => 'string',
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array string
+     */
+    protected $hidden = [
+        'school_id',
+    ];
+
+    /**
+     * Create Rules.
+     *
+     * @var array
+     */
+    public static $createRules = [
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
     ];
 
     // =========================================================================
