@@ -109,6 +109,19 @@ class TeacherTest extends TestCase
     }
 
     /**
+     * Test try get unknown teacher.
+     *
+     * @return void
+     */
+    public function testTryGetUnknownTeacher(): void
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('GET', "api/teachers/9999/");
+        $response->assertNotFound();
+    }
+
+    /**
      * Test get teacher.
      *
      * @return void
@@ -298,6 +311,19 @@ class TeacherTest extends TestCase
         ]);
 
         $responseUpdate->assertUnprocessable();
+    }
+
+    /**
+     * Test try update unknown teacher.
+     *
+     * @return void
+     */
+    public function testTryUpdateUnknownTeacher(): void
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('PATCH', "api/teachers/9999/");
+        $response->assertNotFound();
     }
 
     /**
