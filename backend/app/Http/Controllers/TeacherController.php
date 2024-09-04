@@ -46,6 +46,8 @@ class TeacherController extends Controller
     {
         $teacher = $this->teacherRepository->find($id);
 
+        if (is_null($teacher)) return response()->json([], Response::HTTP_NOT_FOUND);
+
         $this->authorize('view', $teacher);
 
         return response()->json($teacher);
@@ -79,8 +81,10 @@ class TeacherController extends Controller
     {
         $teacher = $this->teacherRepository->find($id);
 
+        if (is_null($teacher)) return response()->json([], Response::HTTP_NOT_FOUND);
+
         $this->authorize('update', $teacher);
 
-        return response()->json($this->teacherRepository->update($id, $request->validated()));
+        return response()->json($this->teacherRepository->update($teacher, $request->validated()));
     }
 }

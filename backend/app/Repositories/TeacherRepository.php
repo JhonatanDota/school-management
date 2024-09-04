@@ -27,12 +27,12 @@ class TeacherRepository
      * Retrieve Teacher.
      *
      * @param  int $id
-     * @return Teacher
+     * @return Teacher|null
      */
 
-    public function find(int $id): Teacher
+    public function find(int $id): ?Teacher
     {
-        return Teacher::findOrFail($id);
+        return Teacher::find($id);
     }
 
     /**
@@ -50,16 +50,14 @@ class TeacherRepository
     /**
      * Update Teacher.
      *
-     * @param int $id
+     * @param Teacher $teacher
      * @param  array $data
      * @return Teacher
      */
 
-    public function update(int $id, array $data): Teacher
+    public function update(Teacher $teacher, array $data): Teacher
     {
-        $teacher = Teacher::find($id);
         $teacher->update($data);
-
         return $teacher;
     }
 }
