@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-
 use App\Models\User;
 use App\Models\School;
 use App\Models\Teacher;
@@ -311,6 +310,50 @@ class TeacherTest extends TestCase
         ]);
 
         $responseUpdate->assertUnprocessable();
+        $responseUpdate->assertJsonValidationErrors(['school_id']);
+        $responseUpdate->assertJsonFragment([
+            'school_id' => ['The school id field is prohibited.'],
+        ]);
+    }
+
+    /**
+     * Test try update teacher with already used email.
+     *
+     * @return void
+     */
+    public function testTryUpdateTeacherWithAlreadyUsedEmail(): void
+    {
+        $this->actingAs($this->user);
+
+        $email = 'test_same_email@test.com';
+        Teacher::factory(['email' => $email])->create();
+
+        $teacher = Teacher::factory()->create();
+
+        $response = $this->json('PATCH', "api/teachers/$teacher->id/", [
+            'email' => $email
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['email']);
+        $response->assertJsonFragment([
+            'email' => ['The email has already been taken.'],
+        ]);
+    }
+
+    /**
+     * Test try update teacher from another school.
+     *
+     * @return void
+     */
+    public function testTryUpdateTeacherFromAnotherSchool(): void
+    {
+        $this->actingAs($this->user);
+
+        $teacher = Teacher::factory()->create();
+
+        $response = $this->json('PATCH', "api/teachers/$teacher->id/");
+        $response->assertForbidden();
     }
 
     /**
