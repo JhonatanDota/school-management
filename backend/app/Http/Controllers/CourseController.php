@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\CourseRepository;
 use App\Http\Requests\CreateCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 
 class CourseController extends Controller
 {
@@ -57,8 +58,29 @@ class CourseController extends Controller
     {
         $course = $this->courseRepository->find($id);
 
+        if (is_null($course)) return response()->json([], Response::HTTP_NOT_FOUND);
+
         $this->authorize('view', $course);
 
         return response()->json($course);
+    }
+
+    /**
+     * Update Course.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param int $id
+     * @return JsonResponse
+     */
+
+    public function update(int $id, UpdateCourseRequest $request): JsonResponse
+    {
+        $course = $this->courseRepository->find($id);
+
+        if (is_null($course)) return response()->json([], Response::HTTP_NOT_FOUND);
+
+        $this->authorize('update', $course);
+
+        return response()->json($this->courseRepository->update($course, $request->validated()));
     }
 }

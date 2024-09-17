@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\Teacher;
 use App\Policies\TeacherPolicy;
 
+use App\Models\Course;
+use App\Policies\CoursePolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Teacher::class => TeacherPolicy::class,
+        Course::class => CoursePolicy::class,
     ];
 
     /**

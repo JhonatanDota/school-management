@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 class TeacherFilter extends Filter
 {
     /**
-     * Filter the products by the given string.
+     * Filter teachers by the given string.
      *
      * @param  string|null  $value
      * @return \Illuminate\Database\Eloquent\Builder

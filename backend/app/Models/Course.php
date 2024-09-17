@@ -29,14 +29,41 @@ class Course extends Model
         'school_id',
     ];
 
+    // =========================================================================
+    // Validations
+    // =========================================================================
+
+    private const MAX_NAME_LENGTH = 30;
+    private const MIN_NAME_LENGTH = 5;
+
     /**
      * Create Rules.
      *
      * @var array
      */
     public static $createRules = [
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
+        'name' => [
+            'required',
+            'string',
+            'max:' . SELF::MAX_NAME_LENGTH,
+            'min:' . SELF::MIN_NAME_LENGTH
+        ],
+        'description' => ['nullable', 'string'],
+    ];
+
+    /**
+     * Edit Rules.
+     *
+     * @var array
+     */
+    public static $updateRules = [
+        'school_id' => 'prohibited',
+        'name' => [
+            'string',
+            'max:' . SELF::MAX_NAME_LENGTH,
+            'min:' . SELF::MIN_NAME_LENGTH
+        ],
+        'description' => 'string',
     ];
 
     // =========================================================================

@@ -24,12 +24,12 @@ class CourseRepository
      * Retrieve Course.
      *
      * @param  int $id
-     * @return Course
+     * @return Course|null
      */
 
-    public function find(int $id): Course
+    public function find(int $id): ?Course
     {
-        return Course::findOrFail($id);
+        return Course::find($id);
     }
 
     /**
@@ -42,5 +42,19 @@ class CourseRepository
     public function create(array $data): Course
     {
         return Course::create($data)->refresh();
+    }
+
+    /**
+     * Update Course.
+     *
+     * @param Course $course
+     * @param  array $data
+     * @return Course
+     */
+
+    public function update(Course $course, array $data): Course
+    {
+        $course->update($data);
+        return $course;
     }
 }
