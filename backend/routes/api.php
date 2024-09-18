@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CourseLessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +38,10 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::post('/', [CourseController::class, 'store']);
         Route::get('/{id}', [CourseController::class, 'show']);
         Route::patch('/{id}', [CourseController::class, 'update']);
+    });
+
+    Route::prefix('lessons')->group(function () {
+        Route::post('/', [CourseLessonController::class, 'store']);
+        Route::get('/{id}', [CourseLessonController::class, 'show']);
     });
 });

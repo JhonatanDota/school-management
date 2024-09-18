@@ -11,6 +11,9 @@ use App\Policies\TeacherPolicy;
 use App\Models\Course;
 use App\Policies\CoursePolicy;
 
+use App\Models\CourseLesson;
+use App\Policies\CourseLessonPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -21,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Teacher::class => TeacherPolicy::class,
         Course::class => CoursePolicy::class,
+        CourseLesson::class => CourseLessonPolicy::class,
     ];
 
     /**
