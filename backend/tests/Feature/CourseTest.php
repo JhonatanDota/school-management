@@ -47,7 +47,7 @@ class CourseTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->json('PATCH', "api/courses/9999/");
+        $response = $this->json('GET', "api/courses/9999/");
         $response->assertNotFound();
     }
 
