@@ -10,3 +10,8 @@ export type CourseAddModel = Omit<
   CourseModel,
   "id" | "createdAt" | "updatedAt"
 >;
+
+export type CourseEditModel = Omit<
+  CourseModel,
+  "id" | "createdAt" | "updatedAt"
+>;
