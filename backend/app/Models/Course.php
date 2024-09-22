@@ -73,8 +73,8 @@ class Course extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function courseLessons()
+    public function lessons()
     {
-        return $this->hasMany(\App\Models\CourseLesson::class)->orderBy('order');
+        return $this->hasMany(\App\Models\CourseLesson::class);
     }
 }

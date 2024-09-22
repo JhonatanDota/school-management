@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 
+use App\Models\CourseLesson;
 use App\Repositories\CourseRepository;
 use App\Repositories\CourseLessonRepository;
 
@@ -35,7 +36,7 @@ class CourseLessonController extends Controller
 
         $course = $this->courseRepository->find($inputs['course_id']);
 
-        $this->authorize('create', $course);
+        $this->authorize('create', [CourseLesson::class, $course]);
 
         return response()->json($this->courseLessonRepository->create($inputs), Response::HTTP_CREATED);
     }

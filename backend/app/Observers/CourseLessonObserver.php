@@ -16,9 +16,8 @@ class CourseLessonObserver
     public function creating(CourseLesson $courseLesson): void
     {
         $course = $courseLesson->course;
-        $lastCourseLesson = $course->courseLessons->last();
-        $nextOrder = $lastCourseLesson ? $lastCourseLesson->order + 1 : 1;
+        $courseLessonsCount = $course->lessons()->count();
 
-        $courseLesson->order = $nextOrder;
+        $courseLesson->order = $courseLessonsCount + 1;
     }
 }
