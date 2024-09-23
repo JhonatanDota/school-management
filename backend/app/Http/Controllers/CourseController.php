@@ -83,4 +83,25 @@ class CourseController extends Controller
 
         return response()->json($this->courseRepository->update($course, $request->validated()));
     }
+
+    /**
+     * Retrieve Course Lessons as JSON Response.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param int $id
+     * @return JsonResponse
+     */
+
+    public function lessons(int $id): JsonResponse
+    {
+        $course = $this->courseRepository->find($id);
+
+        if (is_null($course)) return response()->json([], Response::HTTP_NOT_FOUND);
+
+        $this->authorize('view', $course);
+
+        $lessons = $this->courseRepository->lessons($course);
+
+        return response()->json($lessons);
+    }
 }

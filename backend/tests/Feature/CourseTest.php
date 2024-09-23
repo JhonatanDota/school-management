@@ -35,6 +35,7 @@ class CourseTest extends TestCase
         $this->json('GET', 'api/courses/')->assertUnauthorized();
         $this->json('POST', 'api/courses/')->assertUnauthorized();
         $this->json('GET', "api/courses/$fakeId/")->assertUnauthorized();
+        $this->json('GET', "api/courses/$fakeId/lessons")->assertUnauthorized();
         $this->json('PATCH', "api/courses/$fakeId/")->assertUnauthorized();
     }
 
@@ -138,6 +139,55 @@ class CourseTest extends TestCase
             'description',
             'created_at',
             'updated_at',
+        ]);
+    }
+
+    /**
+     * Test get course lessons without lessons.
+     *
+     * @return void
+     */
+    public function testGetCourseLessonsWithoutLessons(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+
+        $response = $this->json('GET', "api/courses/$course->id/lessons");
+
+        $response->assertOk();
+        $response->assertJsonStructure([]);
+        $response->assertJsonFragment([]);
+    }
+
+    /**
+     * Test get course lessons.
+     *
+     * @return void
+     */
+    public function testGetCourseLessons(): void
+    {
+        $this->actingAs($this->user);
+
+        $lessonsCount = 5;
+        $course = Course::factory(['school_id' => $this->user->school_id])->hasLessons($lessonsCount)->create();
+
+        $response = $this->json('GET', "api/courses/$course->id/lessons");
+
+        $response->assertOk();
+        $response->assertJsonCount($lessonsCount);
+        $response->assertJsonStructure([
+            '*' => [
+                'id',
+                'course_id',
+                'name',
+                'order',
+                'created_at',
+                'updated_at',
+            ]
+        ]);
+        $response->assertJsonFragment([
+            'course_id' => $course->id,
         ]);
     }
 

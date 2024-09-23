@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Course;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class CourseRepository
@@ -56,5 +57,17 @@ class CourseRepository
     {
         $course->update($data);
         return $course;
+    }
+
+    /**
+     * Retrieve Course Lessons.
+     *
+     * @param  Course $course
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+
+    public function lessons(Course $course): Collection
+    {
+        return $course->lessons;
     }
 }
