@@ -6,6 +6,7 @@ import {
   CourseEditModel,
   CourseModel,
 } from "@/models/CourseModel";
+import { CourseLessonModel } from "@/models/CourseLessonModel";
 
 const COURSES_URL: string = "courses";
 
@@ -34,4 +35,10 @@ export async function editCourse(
   data: CourseEditModel
 ): Promise<AxiosResponse<CourseModel>> {
   return await requester().patch(`${COURSES_URL}/${id}`, data);
+}
+
+export async function getCourseLessons(
+  id: number
+): Promise<AxiosResponse<CourseLessonModel[]>> {
+  return await requester().get(`${COURSES_URL}/${id}/lessons`);
 }

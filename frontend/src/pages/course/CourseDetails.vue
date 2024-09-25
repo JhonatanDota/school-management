@@ -6,7 +6,16 @@
 
     <div class="flex flex-col gap-6" v-if="course">
       <TitlePage :title="`${course.name}`" />
-      <EditCourse :course="course" />
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="col-span-1">
+          <EditCourse class="col-span-1" :course="course" />
+        </div>
+        <div class="col-span-1">
+          <CourseLessonList :course="course" />
+        </div>
+      </div>
+
     </div>
 
     <CourseDetailsSkeleton v-else />
@@ -24,6 +33,7 @@ import TitlePage from "../TitlePage.vue";
 import CircleArrowUp from "@/icons/CircleArrowUp.vue";
 import CourseDetailsSkeleton from "@/skeletons/CourseDetailsSkeleton.vue"
 import EditCourse from "@/components/course/EditCourse.vue";
+import CourseLessonList from "@/components/course/lesson/CourseLessonList.vue";
 
 const route = useRoute();
 const router = useRouter();
