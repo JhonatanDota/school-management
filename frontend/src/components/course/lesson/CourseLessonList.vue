@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-col gap-3 p-4 rounded-md bg-[#222D32]">
         <h2 class="text-xl md:text-2xl font-semibold text-white">Lições</h2>
-        <VueDraggableNext v-if="courseLessons.length" class="flex flex-col gap-3">
+        <div v-if="courseLessons.length" class="flex flex-col gap-3">
             <CourseLesson v-for="courseLesson in courseLessons" :courseLesson="courseLesson" :key="courseLesson.id" />
-        </VueDraggableNext>
+        </div>
         <h3 class="text-base md:text-lg text-green-600 font-bold" v-else>Não possui lições</h3>
         <AddCourseLesson :course="course" :onAdd="onAddCourseLesson" />
     </div>
@@ -16,7 +16,6 @@ import { CourseLessonModel } from '@/models/CourseLessonModel';
 import { getCourseLessons } from '@/requests/courseRequests';
 import AddCourseLesson from './AddCourseLesson.vue';
 import CourseLesson from './CourseLesson.vue';
-import { VueDraggableNext } from 'vue-draggable-next';
 
 interface CourseLessonListProps {
     course: CourseModel;
