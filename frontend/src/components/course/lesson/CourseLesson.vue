@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex justify-between items-center rounded-l-md border-l-8 border-l-white bg-green-600 p-3 cursor-pointer">
+        class="flex justify-between items-center rounded-l-md border-l-8 border-l-white bg-green-600 p-3 cursor-pointer select-none">
         <span class="text-base md:text-lg font-medium">{{ courseLesson.name }}</span>
         <button class="w-7 h-7 md:w-9 md:h-9">
             <XIcon class="w-full h-full" fill="white" />
