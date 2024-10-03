@@ -6,3 +6,8 @@ export interface CourseLessonModel {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type CourseLessonAddModel = Omit<
+  CourseLessonModel,
+  "id" | "order" | "createdAt" | "updatedAt"
+>;

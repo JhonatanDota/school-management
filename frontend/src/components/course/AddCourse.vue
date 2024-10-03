@@ -33,15 +33,15 @@ interface addCourseProps {
 
 const props = defineProps<addCourseProps>();
 
-const initialState = (): CourseAddModel => ({
+const initialState: CourseAddModel = {
   name: "",
   description: ""
-});
+};
 
-const courseData: CourseAddModel = reactive(initialState());
+const courseData: CourseAddModel = reactive(initialState);
 
 function resetForm(): void {
-  Object.assign(courseData, initialState());
+  Object.assign(courseData, initialState);
 }
 
 async function onSubmit(): Promise<void> {
