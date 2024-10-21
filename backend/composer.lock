@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9c9a0db7da3c369095fe69f50cc1233",
+    "content-hash": "c1c26f88fd9a5590b901661003010abb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1860,6 +1860,62 @@
                 }
             ],
             "time": "2024-01-28T23:22:08+00:00"
+        },
+        {
+            "name": "mavinoo/laravel-batch",
+            "version": "v2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mavinoo/laravelBatch.git",
+                "reference": "8f85ba2923b63bfad8b9181ef210094eba47b5ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mavinoo/laravelBatch/zipball/8f85ba2923b63bfad8b9181ef210094eba47b5ec",
+                "reference": "8f85ba2923b63bfad8b9181ef210094eba47b5ec",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3@dev"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mavinoo\\Batch\\BatchServiceProvider"
+                    ],
+                    "aliases": {
+                        "Batch": "Mavinoo\\Batch\\BatchFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Common/Helpers.php"
+                ],
+                "psr-4": {
+                    "Mavinoo\\Batch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohammad Ghanbari",
+                    "email": "mavin.developer@gmail.com"
+                }
+            ],
+            "description": "Insert and update batch (bulk) in laravel",
+            "support": {
+                "issues": "https://github.com/mavinoo/laravelBatch/issues",
+                "source": "https://github.com/mavinoo/laravelBatch/tree/v2.4.1"
+            },
+            "time": "2024-09-17T11:09:20+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -8280,7 +8336,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "tymon/jwt-auth": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
