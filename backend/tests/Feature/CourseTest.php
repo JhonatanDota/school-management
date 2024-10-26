@@ -6,6 +6,7 @@ use Tests\TestCase;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Models\CourseLesson;
 
 class CourseTest extends TestCase
 {
@@ -37,6 +38,7 @@ class CourseTest extends TestCase
         $this->json('GET', "api/courses/$fakeId/")->assertUnauthorized();
         $this->json('GET', "api/courses/$fakeId/lessons")->assertUnauthorized();
         $this->json('PATCH', "api/courses/$fakeId/")->assertUnauthorized();
+        $this->json('PATCH', "api/courses/$fakeId/lessons-order")->assertUnauthorized();
     }
 
     /**
@@ -530,5 +532,139 @@ class CourseTest extends TestCase
             'name' => $newName,
             'description' => $newDescription,
         ]);
+    }
+
+    /**
+     * Test try update course lessons orders passing an non array type to lessons field.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonsOrdersPassingAnNonArrayTypeToLessonsField(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+
+        $response = $this->json('PATCH', "api/courses/$course->id/lessons-order", [
+            'orders' => 'string'
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['orders']);
+        $response->assertJsonFragment([
+            'orders' => ['The orders must be an array.', 'The orders must contain 0 items.'],
+        ]);
+    }
+
+    /**
+     * Test try update course lessons orders without pass orders array.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonsOrdersWithoutPassOrdersArray(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+
+        $response = $this->json('PATCH', "api/courses/$course->id/lessons-order");
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['orders']);
+        $response->assertJsonFragment([
+            'orders' => ['The orders field is required.'],
+        ]);
+    }
+
+    /**
+     * Test try update course lessons orders without pass all lessons ids.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonsOrdersWithoutPassAllLessonsIds(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->hasLessons(3)->create();
+        $lessons = $course->lessons;
+
+        $response = $this->json('PATCH', "api/courses/$course->id/lessons-order", [
+            'orders' => [$lessons->first()['id']]
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['orders']);
+        $response->assertJsonFragment([
+            'orders' => ['The orders must contain ' . $lessons->count() . ' items.'],
+        ]);
+    }
+
+    /**
+     * Test to verify the attempt to update course lesson orders when all IDs and orders are provided, 
+     * but one of the IDs does not correspond to a valid lesson in the course.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonOrderFailsWhenOneLessonIdIsInvalid(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->hasLessons(1)->create();
+        $lesson = CourseLesson::factory()->create();
+
+        $response = $this->json('PATCH', "api/courses/$course->id/lessons-order", [
+            'orders' => [$lesson['id']]
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['orders.0']);
+        $response->assertJsonFragment([
+            'orders.0' => ['Some of the provided orders are either invalid or do not belong to this course.'],
+        ]);
+    }
+
+    /**
+     * Test update course lessons orders.
+     *
+     * @return void
+     */
+    public function testUpdateCourseLessonsOrders(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->hasLessons(5)->create();
+        $lessons = $course->lessons;
+
+        // Check current orders
+
+        $response = $this->json('GET', "api/courses/$course->id/lessons");
+        $responseData = $response->json();
+
+        $response->assertOk();
+
+        foreach ($responseData as $index => $lesson) {
+            $this->assertEquals($lesson['order'], $index + 1);
+            $this->assertEquals($lesson['id'], $lessons[$index]['id']);
+            $this->assertEquals($lesson['order'], $lessons[$index]['order']);
+        }
+
+        // Revert lessons orders
+
+        $response = $this->json('PATCH', "api/courses/$course->id/lessons-order", [
+            'orders' => array_reverse($lessons->pluck('id')->toArray()),
+        ]);
+
+        $response->assertOk();
+
+        // Check orders after changes
+
+        $response = $this->json('GET', "api/courses/$course->id/lessons");
+        $responseData = $response->json();
+
+        foreach ($responseData as $index => $lesson) {
+            $this->assertEquals($lesson['order'], $index + 1);
+            $this->assertEquals($lesson['id'], $lessons[count($lessons) - ($index + 1)]['id']);
+            $this->assertEquals($lesson['order'], $lessons[$index]['order']);
+        }
     }
 }

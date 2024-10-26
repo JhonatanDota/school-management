@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Course;
+use App\Models\CourseLesson;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -69,5 +70,24 @@ class CourseRepository
     public function lessons(Course $course): Collection
     {
         return $course->lessons;
+    }
+
+    /**
+     * Update Course Lessons Orders.
+     *
+     * @param  array $newOrderLessons
+     * @return void
+     */
+
+    public function updateCourseLessonsOrders(array $newOrderLessons): void
+    {
+        foreach ($newOrderLessons as $index => $lessonId) {
+            $updateData[] = [
+                'id' => $lessonId,
+                'order' => $index + 1,
+            ];
+        }
+
+        CourseLesson::batchUpdate($updateData);
     }
 }

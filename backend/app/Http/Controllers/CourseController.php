@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\CourseRepository;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Http\Requests\UpdateCourseLessonsOrder;
 
 class CourseController extends Controller
 {
@@ -103,5 +104,26 @@ class CourseController extends Controller
         $lessons = $this->courseRepository->lessons($course);
 
         return response()->json($lessons);
+    }
+
+    /**
+     * Reorder Course Lessons.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param int $id
+     * @return JsonResponse
+     */
+
+    public function lessonsOrder(int $id, UpdateCourseLessonsOrder $request): JsonResponse
+    {
+        $course = $this->courseRepository->find($id);
+
+        if (is_null($course)) return response()->json([], Response::HTTP_NOT_FOUND);
+
+        $this->authorize('update', $course);
+
+        $this->courseRepository->updateCourseLessonsOrders([...$request->validated()['orders']]);
+
+        return response()->json();
     }
 }

@@ -75,6 +75,6 @@ class Course extends Model
      **/
     public function lessons()
     {
-        return $this->hasMany(\App\Models\CourseLesson::class);
+        return $this->hasMany(\App\Models\CourseLesson::class)->orderBy('order');
     }
 }
