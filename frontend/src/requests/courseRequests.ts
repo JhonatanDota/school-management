@@ -42,3 +42,12 @@ export async function getCourseLessons(
 ): Promise<AxiosResponse<CourseLessonModel[]>> {
   return await requester().get(`${COURSES_URL}/${id}/lessons`);
 }
+
+export async function reorderCourseLessons(
+  courseId: number,
+  lessonsIds: number[]
+): Promise<AxiosResponse<CourseLessonModel[]>> {
+  return await requester().patch(`${COURSES_URL}/${courseId}/lessons-order`, {
+    orders: lessonsIds,
+  });
+}

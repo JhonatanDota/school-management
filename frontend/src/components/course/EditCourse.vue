@@ -33,7 +33,7 @@ const props = defineProps<EditCourseProps>();
 
 const courseData = reactive<CourseModel>(props.course);
 
-async function onSubmit() {
+async function onSubmit(): Promise<void> {
     try {
         const parsedCourseData = editCourseDataParser(courseData);
 

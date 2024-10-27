@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col gap-3 p-4 rounded-md bg-[#222D32]">
         <h2 class="text-xl md:text-2xl font-semibold text-white">Lições</h2>
-        <SlickList axis="y" v-if="courseLessons.length" v-model:list="courseLessons" class="flex flex-col gap-3"
-            :distance=10 @sort-end="onDragEnd">
+        <SlickList axis="y" v-if="courseLessons.length" v-model:list="courseLessons" @sort-end="onDragEnd"
+            class="flex flex-col gap-3" :distance=10>
             <SlickItem v-for="(courseLesson, index) in courseLessons" :key="courseLesson.id" :index="index">
                 <CourseLesson :courseLesson="courseLesson" />
             </SlickItem>
@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, onMounted } from 'vue';
+import { ref, defineProps, onMounted, nextTick } from 'vue';
 import { SlickList, SlickItem } from 'vue-slicksort';
 import { CourseModel } from '@/models/CourseModel';
 import { CourseLessonModel } from '@/models/CourseLessonModel';
-import { getCourseLessons } from '@/requests/courseRequests';
+import { getCourseLessons, reorderCourseLessons as reorderCourseLessonsRequest } from '@/requests/courseRequests';
 import AddCourseLesson from './AddCourseLesson.vue';
 import CourseLesson from './CourseLesson.vue';
 
@@ -34,7 +34,17 @@ onMounted(async function () {
 });
 
 async function reorderCourseLessons(): Promise<void> {
-    //
+    const courseLessonIds: number[] = courseLessons.value.map((courseLesson) => courseLesson.id);
+
+    try {
+        await reorderCourseLessonsRequest(
+            props.course.id,
+            courseLessonIds,
+        );
+
+    } catch (error) {
+        //
+    }
 }
 
 function onAddCourseLesson(courseLesson: CourseLessonModel): void {
@@ -47,7 +57,9 @@ function setNewCourseLesson(courseLesson: CourseLessonModel): void {
 
 function onDragEnd({ newIndex, oldIndex }: { newIndex: number, oldIndex: number }): void {
     if (newIndex !== oldIndex) {
-        reorderCourseLessons();
+        nextTick(() => {
+            reorderCourseLessons();
+        });
     }
 }
 </script>
