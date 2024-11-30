@@ -35,6 +35,7 @@ class CourseLessonTest extends TestCase
 
         $this->json('POST', 'api/lessons/')->assertUnauthorized();
         $this->json('GET', "api/lessons/$fakeId/")->assertUnauthorized();
+        $this->json('PATCH', "api/lessons/$fakeId/")->assertUnauthorized();
     }
 
     /**
@@ -217,7 +218,7 @@ class CourseLessonTest extends TestCase
         $response->assertJsonValidationErrors($expectedFieldErrors);
         $response->assertJsonCount(count($expectedFieldErrors), 'errors');
         $response->assertJsonFragment([
-            'name' => ['The name must not be greater than 20 characters.'],
+            'name' => ['The name must not be greater than ' . CourseLesson::MAX_NAME_LENGTH . ' characters.'],
         ]);
     }
 
@@ -274,6 +275,126 @@ class CourseLessonTest extends TestCase
             'course_id' => $courseId,
             'name' => $name,
             'order' => $expectedOrder,
+        ]);
+    }
+
+    /**
+     * Test check user can`t update course lesson from another school.
+     *
+     * @return void
+     */
+    public function testCheckUserCantUpdateCourseLessonFromAnotherSchool(): void
+    {
+        $this->actingAs($this->user);
+
+        $courseLesson = CourseLesson::factory()->create();
+
+        $response = $this->json('PATCH', "api/lessons/$courseLesson->id/");
+
+        $response->assertForbidden();
+        $response->assertJsonFragment(['message' => 'This action is unauthorized.']);
+    }
+
+    /**
+     * Test try update course lesson course_id.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonCourseId(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+        $courseLesson = CourseLesson::factory(['course_id' => $course->id])->create();
+
+        $response = $this->json('PATCH', "api/lessons/$courseLesson->id", ['course_id' => 99]);
+
+        $expectedFieldErrors = ['course_id'];
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors($expectedFieldErrors);
+        $response->assertJsonCount(count($expectedFieldErrors), 'errors');
+        $response->assertJsonFragment([
+            'course_id' => ['The course id field is prohibited.'],
+        ]);
+    }
+
+    /**
+     * Test try update course lesson order.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonOrder(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+        $courseLesson = CourseLesson::factory(['course_id' => $course->id])->create();
+
+        $response = $this->json('PATCH', "api/lessons/$courseLesson->id", ['order' => 99]);
+
+        $expectedFieldErrors = ['order'];
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors($expectedFieldErrors);
+        $response->assertJsonCount(count($expectedFieldErrors), 'errors');
+        $response->assertJsonFragment([
+            'order' => ['The order field is prohibited.'],
+        ]);
+    }
+
+    /**
+     * Test try update course lesson with too long name.
+     *
+     * @return void
+     */
+    public function testTryUpdateCourseLessonWithTooLongName(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+        $courseLesson = CourseLesson::factory(['course_id' => $course->id])->create();
+
+        $newName = 'Test Course Lesson Too Long Name';
+
+        $response = $this->json('PATCH', "api/lessons/$courseLesson->id", ['name' => $newName]);
+
+        $expectedFieldErrors = ['name'];
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors($expectedFieldErrors);
+        $response->assertJsonCount(count($expectedFieldErrors), 'errors');
+        $response->assertJsonFragment([
+            'name' => ['The name must not be greater than ' . CourseLesson::MAX_NAME_LENGTH . ' characters.'],
+        ]);
+    }
+
+    /**
+     * Test update course lesson name.
+     *
+     * @return void
+     */
+    public function testUpdateCourseLessonName(): void
+    {
+        $this->actingAs($this->user);
+
+        $course = Course::factory(['school_id' => $this->user->school_id])->create();
+        $courseLesson = CourseLesson::factory(['course_id' => $course->id])->create();
+
+        $newName = 'Test Change Name';
+
+        $response = $this->json('PATCH', "api/lessons/$courseLesson->id", ['name' => $newName]);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'created_at',
+            'updated_at',
+        ]);
+
+        $response->assertJsonFragment([
+            'name' => $newName,
         ]);
     }
 

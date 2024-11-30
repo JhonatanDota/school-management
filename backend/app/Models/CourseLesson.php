@@ -27,10 +27,10 @@ class CourseLesson extends Model
     // Validations
     // =========================================================================
 
-    private const MAX_NAME_LENGTH = 20;
-    private const MIN_NAME_LENGTH = 3;
+    public const MAX_NAME_LENGTH = 20;
+    public const MIN_NAME_LENGTH = 3;
 
-    public static $createRules = [
+    static $createRules = [
         'course_id' => ['required', 'exists:courses,id'],
         'name' => [
             'required',
@@ -39,6 +39,16 @@ class CourseLesson extends Model
             'min:' . SELF::MIN_NAME_LENGTH
         ],
         'order' => 'prohibited'
+    ];
+
+    static $updateRules = [
+        'course_id' => 'prohibited',
+        'name' => [
+            'string',
+            'max:' . SELF::MAX_NAME_LENGTH,
+            'min:' . SELF::MIN_NAME_LENGTH
+        ],
+        'order' => 'prohibited',
     ];
 
     // =========================================================================

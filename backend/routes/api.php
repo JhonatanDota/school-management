@@ -45,5 +45,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('lessons')->group(function () {
         Route::post('/', [CourseLessonController::class, 'store']);
         Route::get('/{id}', [CourseLessonController::class, 'show']);
+        Route::patch('/{id}', [CourseLessonController::class, 'update']);
     });
 });

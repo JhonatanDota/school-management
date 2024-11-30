@@ -10,6 +10,7 @@ use App\Repositories\CourseRepository;
 use App\Repositories\CourseLessonRepository;
 
 use App\Http\Requests\CreateCourseLessonRequest;
+use App\Http\Requests\UpdateCourseLessonRequest;
 
 class CourseLessonController extends Controller
 {
@@ -58,5 +59,24 @@ class CourseLessonController extends Controller
         $this->authorize('view', $courseLesson);
 
         return response()->json($courseLesson);
+    }
+
+    /**
+     * Update Course Lesson.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param int $id
+     * @return JsonResponse
+     */
+
+    public function update(int $id, UpdateCourseLessonRequest $request): JsonResponse
+    {
+        $courseLesson = $this->courseLessonRepository->find($id);
+
+        if (is_null($courseLesson)) return response()->json([], Response::HTTP_NOT_FOUND);
+
+        $this->authorize('update', $courseLesson);
+
+        return response()->json($this->courseLessonRepository->update($courseLesson, $request->validated()));
     }
 }
