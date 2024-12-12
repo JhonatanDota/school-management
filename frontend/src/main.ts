@@ -7,7 +7,7 @@ import { plugin as Slicksort } from "vue-slicksort";
 import { createPinia } from "pinia";
 import { createVfm } from "vue-final-modal";
 import "./index.css";
-import 'vue-final-modal/style.css'
+import "vue-final-modal/style.css";
 
 createApp(App)
   .use(router)

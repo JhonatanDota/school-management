@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 import { CourseLessonModel } from '@/models/CourseLessonModel';
 import TrashIcon from '@/icons/TrashIcon.vue';
 import EditIcon from '@/icons/EditIcon.vue';
@@ -25,14 +25,15 @@ interface CourseLessonProps {
 }
 
 const props = defineProps<CourseLessonProps>();
+const emit = defineEmits<{
+    (event: 'edit', courseLesson: CourseLessonModel): void
+}>();
 
 function handleEdit() {
-    console.log(props.courseLesson);
+    emit('edit', props.courseLesson);
 }
 
 function handleDelete() {
     console.log(props.courseLesson);
 }
-
-
 </script>
